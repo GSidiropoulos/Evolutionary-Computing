@@ -1,4 +1,7 @@
 import org.vu.contest.ContestSubmission;
+
+import evolutionary.Individual;
+
 import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
@@ -48,22 +51,30 @@ public class player29 implements ContestSubmission
 	{
 		// Run your algorithm here
         
+		
         int evals = 0;
         // init population
         // calculate fitness
         while(evals<evaluations_limit_){
             // Select parents
             // Apply crossover / mutation operators
-            double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child);
+            //double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+            
+        	// Check fitness of unknown function
+    		//create individual
+    		Individual i1 = new Individual(evaluation_);
+        	i1.calulateFitness();
+        	System.out.println(i1.toString());
+            Double fitness = i1.getFitness();
             evals++;
             // Select survivors
         }
 
 	}
 	
-	public static void main(String args[]) {
-		System.out.println("Done");
-	}
+//	public static void main(String args[]) {
+//		
+//	
+//	}
+	
 }
