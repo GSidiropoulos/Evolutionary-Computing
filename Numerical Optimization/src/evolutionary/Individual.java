@@ -16,6 +16,7 @@ public class Individual {
 		super();
 		this.evaluation = evaluation;
 		setGenomes();
+		calculateFitness();
 	}
 
 	private void setGenomes() {
@@ -26,16 +27,16 @@ public class Individual {
 
 	}
 
+	public double[] getGenomes() {
+		return genomes;
+	}
+
 	public double getFitness() {
 		return fitness;
 	}
 
-	public void calulateFitness() {
+	private void calculateFitness() {
 		this.fitness = (double) evaluation.evaluate(genomes);
-	}
-
-	public double[] getGenomes() {
-		return genomes;
 	}
 
 	@Override

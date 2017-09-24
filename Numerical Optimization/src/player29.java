@@ -63,7 +63,6 @@ public class player29 implements ContestSubmission
         	// Check fitness of unknown function
     		//create individual
     		Individual i1 = new Individual(evaluation_);
-        	i1.calulateFitness();
         	System.out.println(i1.toString());
             Double fitness = i1.getFitness();
             evals++;
@@ -72,9 +71,9 @@ public class player29 implements ContestSubmission
 
 	}
 	
-//	public static void main(String args[]) {
-//		
-//	
-//	}
+	public static void main(String args[]) {
+		
+	
+	}
 	
 }
