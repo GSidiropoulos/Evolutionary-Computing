@@ -23,4 +23,15 @@ public class Population {
 		}
 	}
 
+	public void removeFromPopulation(Individual indv) {
+		population.remove(indv);
+//		avoid memory overload, if there is no reference to the object
+//		it will be deleted by the garbage collector
+		indv = null;
+	}
+
+	public void removeFromPopulation(List<Individual> indvs) {
+
+	}
+
 }
