@@ -25,13 +25,34 @@ public class Population {
 
 	public void removeFromPopulation(Individual indv) {
 		population.remove(indv);
-//		avoid memory overload, if there is no reference to the object
-//		it will be deleted by the garbage collector
+		// avoid memory overload, if there is no reference to the object
+		// it will be deleted by the garbage collector
 		indv = null;
 	}
 
 	public void removeFromPopulation(List<Individual> indvs) {
+		population.removeAll(indvs);
 
+		for (Individual indv : indvs) {
+			indv = null;
+		}
+
+	}
+
+	public List<Individual> getPopulation() {
+		return population;
+	}
+
+	public void setPopulation(List<Individual> population) {
+		this.population = population;
+	}
+
+	public ContestEvaluation getEvaluation() {
+		return evaluation;
+	}
+
+	public int getPopSize() {
+		return popSize;
 	}
 
 }
