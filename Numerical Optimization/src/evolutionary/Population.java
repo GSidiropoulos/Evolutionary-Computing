@@ -23,6 +23,19 @@ public class Population {
 		}
 	}
 
+	// for testing purpose
+	public Population(int popSize) {
+		super();
+		this.popSize = popSize;
+		population = new ArrayList<Individual>();
+
+		for (int i = 0; i < popSize; i++) {
+
+			population.add(new Individual());
+		}
+	}
+	////////////////////////////////////////////////
+
 	public void removeFromPopulation(Individual indv) {
 		population.remove(indv);
 		// avoid memory overload, if there is no reference to the object
@@ -53,6 +66,10 @@ public class Population {
 
 	public int getPopSize() {
 		return popSize;
+	}
+
+	public void addIndividual(Individual indv) {
+		population.add(indv);
 	}
 
 }

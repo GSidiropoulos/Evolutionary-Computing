@@ -1,11 +1,13 @@
 import org.vu.contest.ContestSubmission;
 
 import evolutionary.Individual;
+import evolutionary.Mutation;
 import evolutionary.Population;
 
 import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class player29 implements ContestSubmission {
@@ -18,7 +20,7 @@ public class player29 implements ContestSubmission {
 	}
 
 	public void setSeed(long seed) {
-		// Set seed of algortihms random process
+		// Set seed of algorithms random process
 		rnd_.setSeed(seed);
 	}
 
@@ -46,15 +48,23 @@ public class player29 implements ContestSubmission {
 
 	public void run() {
 		// Run your algorithm here
-		
+
 		// init population
-		Population pop = new Population(10, evaluation_);
+		int popSize = 10;
+		Population pop = new Population(popSize, evaluation_);
+
+		// mutation
+		Mutation.init(popSize);
 
 		// calculate fitness
 		int evals = 0;
 		while (evals < evaluations_limit_) {
 			// Select parents
 			// Apply crossover / mutation operators
+
+			for (Individual indv : pop.getPopulation()) {
+
+			}
 
 			// Check fitness of unknown function
 			// create individual
@@ -66,9 +76,39 @@ public class player29 implements ContestSubmission {
 
 	}
 
+	// testing purpose
 	public static void main(String args[]) {
 
-		System.out.println(Math.ulp(1.0)+10);
+		// init population
+		int popSize = 3;
+		Population pop = new Population(popSize);
+
+		Mutation.init(popSize);
+		int evals = 0;
+		int evaluations_limit = 1;
+		while (evals < evaluations_limit) {
+			// Select parents
+			// Apply crossover / mutation operators
+
+			for (Individual indv : pop.getPopulation()) {
+
+				System.out.println(Arrays.toString(indv.getGenomes()));
+				System.out.println(indv.getSigma());
+				Individual newIndv = Mutation.uncorrelatedMutation(indv);
+				System.out.println(Arrays.toString(newIndv.getGenomes()));
+				System.out.println(newIndv.getSigma());
+				
+				System.out.println("-----------------------------------");
+			}
+
+			// Check fitness of unknown function
+			// create individual
+			// Select survivors
+
+			evals++;
+
+		}
+
 	}
 
 }

@@ -13,9 +13,23 @@ public class Individual {
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
 
+	// for testing purpose
+	public Individual() {
+		super();
+		sigma = 1.0;
+		setGenomes();
+	}
+	public Individual(double[] genomes, double sigma) {
+		super();
+		this.genomes = genomes;
+		this.sigma = sigma;
+	}
+	/////////////////////////////////////
+	
 	public Individual(ContestEvaluation evaluation) {
 		super();
 		this.evaluation = evaluation;
+		sigma = 1.0;
 		setGenomes();
 		calculateFitness();
 	}
@@ -25,6 +39,7 @@ public class Individual {
 		this.genomes = genomes;
 		this.sigma = sigma;
 		this.evaluation = evaluation;
+		calculateFitness();
 	}
 
 	private void setGenomes() {
