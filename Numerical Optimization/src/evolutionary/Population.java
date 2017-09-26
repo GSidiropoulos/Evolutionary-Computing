@@ -18,7 +18,6 @@ public class Population {
 		population = new ArrayList<Individual>();
 
 		for (int i = 0; i < popSize; i++) {
-
 			population.add(new Individual(evaluation));
 		}
 	}
@@ -70,6 +69,22 @@ public class Population {
 
 	public void addIndividual(Individual indv) {
 		population.add(indv);
+	}
+
+	public Individual getFittestIndividual() {
+
+		double bestFitValue = -1.0;
+		Individual fittestIndv = null;
+
+		for (Individual indv : population) {
+
+			if (bestFitValue < indv.getFitness()) {
+				fittestIndv = indv;
+			}
+
+		}
+
+		return fittestIndv;
 	}
 
 }

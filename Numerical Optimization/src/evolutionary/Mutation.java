@@ -31,10 +31,10 @@ public class Mutation {
 			genomesNew[i] = genomes[i] + sigmaNew * ThreadLocalRandom.current().nextGaussian();
 		}
 
-		// return new Individual(genomesNew, sigmaNew, indv.getEvaluation());
+		//return new Individual(genomesNew, sigmaNew, indv.getEvaluation());
 
 		// test
-		return new Individual(genomesNew, sigmaNew);
+		 return new Individual(genomesNew, sigmaNew);
 	}
 
 }

@@ -7,7 +7,9 @@ import evolutionary.Population;
 import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class player29 implements ContestSubmission {
@@ -47,25 +49,36 @@ public class player29 implements ContestSubmission {
 	}
 
 	public void run() {
-		// Run your algorithm here
 
 		// init population
-		int popSize = 10;
+		int popSize = 2;
 		Population pop = new Population(popSize, evaluation_);
 
-		// mutation
+		// initialize mutation
 		Mutation.init(popSize);
 
 		// calculate fitness
 		int evals = 0;
 		while (evals < evaluations_limit_) {
 			// Select parents
+
 			// Apply crossover / mutation operators
-
+			List<Individual> newPop = new ArrayList<Individual>();
 			for (Individual indv : pop.getPopulation()) {
-
+				newPop.add(Mutation.uncorrelatedMutation(indv));
 			}
 
+			// remove all parents from population
+			pop.removeFromPopulation(pop.getPopulation());
+
+			// replace parents with children
+			pop.setPopulation(newPop);
+
+			for (Individual i : pop.getPopulation()) {
+				System.out.println(i.toString());
+			}
+
+			System.out.println("----------------------------------------");
 			// Check fitness of unknown function
 			// create individual
 			// Select survivors
@@ -76,7 +89,7 @@ public class player29 implements ContestSubmission {
 
 	}
 
-	// testing purpose
+//	// testing purpose
 	public static void main(String args[]) {
 
 		// init population
@@ -84,26 +97,32 @@ public class player29 implements ContestSubmission {
 		Population pop = new Population(popSize);
 
 		Mutation.init(popSize);
+
 		int evals = 0;
-		int evaluations_limit = 1;
+		int evaluations_limit = 2;
 		while (evals < evaluations_limit) {
+			for (Individual i : pop.getPopulation()) {
+				System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
+			}
 			// Select parents
 			// Apply crossover / mutation operators
 
+			List<Individual> newPop = new ArrayList<Individual>();
 			for (Individual indv : pop.getPopulation()) {
 
-				System.out.println(Arrays.toString(indv.getGenomes()));
-				System.out.println(indv.getSigma());
-				Individual newIndv = Mutation.uncorrelatedMutation(indv);
-				System.out.println(Arrays.toString(newIndv.getGenomes()));
-				System.out.println(newIndv.getSigma());
-				
+				// System.out.println(Arrays.toString(indv.getGenomes()));
+				// System.out.println(indv.getSigma());
+				newPop.add(Mutation.uncorrelatedMutation(indv));
 				System.out.println("-----------------------------------");
 			}
+			// remove all parents from population
+			pop.removeFromPopulation(pop.getPopulation());
 
-			// Check fitness of unknown function
-			// create individual
-			// Select survivors
+			pop.setPopulation(newPop);
+
+			for (Individual i : pop.getPopulation()) {
+				System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
+			}
 
 			evals++;
 
