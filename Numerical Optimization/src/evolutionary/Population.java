@@ -1,6 +1,7 @@
 package evolutionary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.vu.contest.ContestEvaluation;
@@ -71,20 +72,9 @@ public class Population {
 		population.add(indv);
 	}
 
-	public Individual getFittestIndividual() {
-
-		double bestFitValue = -1.0;
-		Individual fittestIndv = null;
-
-		for (Individual indv : population) {
-
-			if (bestFitValue < indv.getFitness()) {
-				fittestIndv = indv;
-			}
-
-		}
-
-		return fittestIndv;
+	public void sortPopulation() {
+		// sort population in descending order
+		Collections.sort(population, new IndividualComparator());
 	}
 
 }

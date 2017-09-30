@@ -19,13 +19,14 @@ public class Individual {
 		sigma = 1.0;
 		setGenomes();
 	}
+
 	public Individual(double[] genomes, double sigma) {
 		super();
-		this.genomes = genomes;
+		this.genomes = validateGenomesNaive(genomes);
 		this.sigma = sigma;
 	}
 	/////////////////////////////////////
-	
+
 	public Individual(ContestEvaluation evaluation) {
 		super();
 		this.evaluation = evaluation;
@@ -36,7 +37,7 @@ public class Individual {
 
 	public Individual(double[] genomes, double sigma, ContestEvaluation evaluation) {
 		super();
-		this.genomes = genomes;
+		this.genomes = validateGenomesNaive(genomes);
 		this.sigma = sigma;
 		this.evaluation = evaluation;
 		calculateFitness();
@@ -49,8 +50,6 @@ public class Individual {
 		}
 
 	}
-	
-	
 
 	public ContestEvaluation getEvaluation() {
 		return evaluation;
@@ -79,6 +78,21 @@ public class Individual {
 	@Override
 	public String toString() {
 		return "Individual [genomes=" + Arrays.toString(genomes) + ", fitness=" + fitness + "]";
+	}
+
+	private double[] validateGenomesNaive(double[] genomes) {
+
+		// naive approach
+		for (int i = 0; i < genomes.length; i++) {
+
+			if (genomes[i] < ORIGIN) {
+				genomes[i] = ORIGIN;
+			} else if (genomes[i] > BOUND) {
+				genomes[i] = BOUND;
+			}
+		}
+
+		return genomes;
 	}
 
 }

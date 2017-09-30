@@ -9,6 +9,7 @@ import org.vu.contest.ContestEvaluation;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -51,21 +52,26 @@ public class player29 implements ContestSubmission {
 	public void run() {
 
 		// init population
-		int popSize = 2;
+		int popSize = 10;
 		Population pop = new Population(popSize, evaluation_);
 
 		// initialize mutation
-		Mutation.init(popSize);
+		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED);
 
-		// calculate fitness
 		int evals = 0;
 		while (evals < evaluations_limit_) {
 			// Select parents
-
+			pop.sortPopulation();
+			for (Individual i : pop.getPopulation()) {
+				System.out.println(i.toString());
+			}
 			// Apply crossover / mutation operators
 			List<Individual> newPop = new ArrayList<Individual>();
-			for (Individual indv : pop.getPopulation()) {
-				newPop.add(Mutation.uncorrelatedMutation(indv));
+			for (int i =0 ; i<5;i++) {
+				newPop.add(Mutation.uncorrelatedMutation(pop.getPopulation().get(i)));
+			}
+			for (int i =0 ; i<5;i++) {
+				newPop.add(Mutation.uncorrelatedMutation(pop.getPopulation().get(i)));
 			}
 
 			// remove all parents from population
@@ -77,57 +83,60 @@ public class player29 implements ContestSubmission {
 			for (Individual i : pop.getPopulation()) {
 				System.out.println(i.toString());
 			}
+			
 
 			System.out.println("----------------------------------------");
-			// Check fitness of unknown function
-			// create individual
-			// Select survivors
 
-			evals++;
+			evals=evals+10;
 
 		}
 
 	}
 
-//	// testing purpose
-	public static void main(String args[]) {
+	// // testing purpose
+	// public static void main(String args[]) {
+	//
+	// // init population
+	// int popSize = 3;
+	// Population pop = new Population(popSize);
+	// for (Individual i : pop.getPopulation()) {
+	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
+	// }
 
-		// init population
-		int popSize = 3;
-		Population pop = new Population(popSize);
+	// Mutation.init(popSize);
 
-		Mutation.init(popSize);
+	// int evals = 0;
+	// int evaluations_limit = 10;
+	// while (evals < evaluations_limit) {
+	// for (Individual i : pop.getPopulation()) {
+	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
+	// }
+	// System.out.println("-----------------------------------");
+	//
+	// // Select parents
+	// // Apply crossover / mutation operators
+	//
+	// List<Individual> newPop = new ArrayList<Individual>();
+	// for (Individual indv : pop.getPopulation()) {
+	//
+	// // System.out.println(Arrays.toString(indv.getGenomes()));
+	// // System.out.println(indv.getSigma());
+	// newPop.add(Mutation.uncorrelatedMutation(indv));
+	// }
+	// // remove all parents from population
+	// pop.removeFromPopulation(pop.getPopulation());
+	//
+	// pop.setPopulation(newPop);
+	//
+	// for (Individual i : pop.getPopulation()) {
+	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
+	// }
+	// System.out.println("-----------------------------------");
+	//
+	// evals++;
+	//
+	// }
 
-		int evals = 0;
-		int evaluations_limit = 2;
-		while (evals < evaluations_limit) {
-			for (Individual i : pop.getPopulation()) {
-				System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
-			}
-			// Select parents
-			// Apply crossover / mutation operators
-
-			List<Individual> newPop = new ArrayList<Individual>();
-			for (Individual indv : pop.getPopulation()) {
-
-				// System.out.println(Arrays.toString(indv.getGenomes()));
-				// System.out.println(indv.getSigma());
-				newPop.add(Mutation.uncorrelatedMutation(indv));
-				System.out.println("-----------------------------------");
-			}
-			// remove all parents from population
-			pop.removeFromPopulation(pop.getPopulation());
-
-			pop.setPopulation(newPop);
-
-			for (Individual i : pop.getPopulation()) {
-				System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
-			}
-
-			evals++;
-
-		}
-
-	}
+	// }
 
 }
