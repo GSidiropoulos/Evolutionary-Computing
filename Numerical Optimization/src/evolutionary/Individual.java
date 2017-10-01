@@ -4,41 +4,52 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import org.vu.contest.ContestEvaluation;
 
+import evolutionary.Mutation.MutationType;
+
 public class Individual {
 
 	private double[] genomes = new double[10];
-	private double sigma;
+	private double[] sigma;
 	private double fitness;
+	private MutationType mutationType;
 	private ContestEvaluation evaluation;
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
 
 	// for testing purpose
-	public Individual() {
-		super();
-		sigma = 1.0;
-		setGenomes();
-	}
-
-	public Individual(double[] genomes, double sigma) {
-		super();
-		this.genomes = validateGenomesNaive(genomes);
-		this.sigma = sigma;
-	}
+//	public Individual() {
+//		super();
+//		sigma = 1.0;
+//		setGenomes();
+//	}
+//
+//	public Individual(double[] genomes, double sigma) {
+//		super();
+//		this.genomes = validateGenomesNaive(genomes);
+//		this.sigma = sigma;
+//	}
 	/////////////////////////////////////
 
-	public Individual(ContestEvaluation evaluation) {
+	public Individual(ContestEvaluation evaluation, MutationType mutationType) {
 		super();
 		this.evaluation = evaluation;
-		sigma = 1.0;
+		this.mutationType = mutationType;
+
+		sigma = new double[this.mutationType.getNumOfSigmas()];
+
+		for (int i = 0; i < sigma.length; i++) {
+			sigma[i] = 1.0;
+		}
+
 		setGenomes();
 		calculateFitness();
 	}
 
-	public Individual(double[] genomes, double sigma, ContestEvaluation evaluation) {
+	public Individual(double[] genomes, double[] sigma, ContestEvaluation evaluation, MutationType mutationType) {
 		super();
 		this.genomes = validateGenomesNaive(genomes);
 		this.sigma = sigma;
+		this.mutationType = mutationType;
 		this.evaluation = evaluation;
 		calculateFitness();
 	}
@@ -59,7 +70,7 @@ public class Individual {
 		this.evaluation = evaluation;
 	}
 
-	public double getSigma() {
+	public double[] getSigma() {
 		return sigma;
 	}
 

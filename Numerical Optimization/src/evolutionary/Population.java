@@ -11,29 +11,31 @@ public class Population {
 	private List<Individual> population;
 	private ContestEvaluation evaluation;
 	private int popSize;
+	private Mutation.MutationType mutationType;
 
-	public Population(int popSize, ContestEvaluation evaluation) {
+	public Population(int popSize, ContestEvaluation evaluation, Mutation.MutationType mutationType) {
 		super();
 		this.popSize = popSize;
 		this.evaluation = evaluation;
+		this.mutationType = mutationType;
 		population = new ArrayList<Individual>();
 
 		for (int i = 0; i < popSize; i++) {
-			population.add(new Individual(evaluation));
+			population.add(new Individual(evaluation, mutationType));
 		}
 	}
 
 	// for testing purpose
-	public Population(int popSize) {
-		super();
-		this.popSize = popSize;
-		population = new ArrayList<Individual>();
-
-		for (int i = 0; i < popSize; i++) {
-
-			population.add(new Individual());
-		}
-	}
+//	public Population(int popSize) {
+//		super();
+//		this.popSize = popSize;
+//		population = new ArrayList<Individual>();
+//
+//		for (int i = 0; i < popSize; i++) {
+//
+//			population.add(new Individual());
+//		}
+//	}
 	////////////////////////////////////////////////
 
 	public void removeFromPopulation(Individual indv) {
