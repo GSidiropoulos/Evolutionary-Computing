@@ -1,8 +1,10 @@
 import org.vu.contest.ContestSubmission;
 
+import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
 import evolutionary.Population;
+import evolutionary.Selection;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -53,32 +55,32 @@ public class player29 implements ContestSubmission {
 
 		// init population
 		int popSize = 10;
-		Population pop = new Population(popSize, evaluation_, Mutation.MutationType.UNCORRELATED_N);
+		Population pop = new Population(popSize, evaluation_, Mutation.MutationType.UNCORRELATED);
 
 		// initialize mutation
-		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED_N);
+		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED);
 
 		int evals = 0;
 		while (evals < evaluations_limit_) {
+
 			// Select parents
-			pop.sortPopulation();
-			for (Individual i : pop.getPopulation()) {
-				System.out.println(i.toString());
-			}
+			List<Integer> parentIds = Selection.selectParentsRandom(10, 10);
+
 			// Apply crossover / mutation operators
 			List<Individual> newPop = new ArrayList<Individual>();
-			for (int i = 0; i < 5; i++) {
-				newPop.add(Mutation.uncorrelatedMutationN(pop.getPopulation().get(i)));
+
+			for (int i : parentIds) {
+				newPop.add(Mutation.uncorrelatedMutation(pop.getPopulation().get(i)));
 			}
-			for (int i = 0; i < 5; i++) {
-				newPop.add(Mutation.uncorrelatedMutationN(pop.getPopulation().get(i)));
-			}
+			newPop.addAll(pop.getPopulation());
+			System.out.println(newPop.size());
+			List<Individual> lol = Selection.plusStrategy(newPop, 10);
 
 			// remove all parents from population
 			pop.removeFromPopulation(pop.getPopulation());
 
 			// replace parents with children
-			pop.setPopulation(newPop);
+			pop.setPopulation(lol);
 
 			for (Individual i : pop.getPopulation()) {
 				System.out.println(i.toString());
@@ -91,51 +93,5 @@ public class player29 implements ContestSubmission {
 		}
 
 	}
-
-	// // testing purpose
-	// public static void main(String args[]) {
-	//
-	// // init population
-	// int popSize = 3;
-	// Population pop = new Population(popSize);
-	// for (Individual i : pop.getPopulation()) {
-	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
-	// }
-
-	// Mutation.init(popSize);
-
-	// int evals = 0;
-	// int evaluations_limit = 10;
-	// while (evals < evaluations_limit) {
-	// for (Individual i : pop.getPopulation()) {
-	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
-	// }
-	// System.out.println("-----------------------------------");
-	//
-	// // Select parents
-	// // Apply crossover / mutation operators
-	//
-	// List<Individual> newPop = new ArrayList<Individual>();
-	// for (Individual indv : pop.getPopulation()) {
-	//
-	// // System.out.println(Arrays.toString(indv.getGenomes()));
-	// // System.out.println(indv.getSigma());
-	// newPop.add(Mutation.uncorrelatedMutation(indv));
-	// }
-	// // remove all parents from population
-	// pop.removeFromPopulation(pop.getPopulation());
-	//
-	// pop.setPopulation(newPop);
-	//
-	// for (Individual i : pop.getPopulation()) {
-	// System.out.println(Arrays.toString(i.getGenomes()) + " " + i.getSigma());
-	// }
-	// System.out.println("-----------------------------------");
-	//
-	// evals++;
-	//
-	// }
-
-	// }
 
 }

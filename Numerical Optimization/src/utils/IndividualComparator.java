@@ -1,6 +1,8 @@
-package evolutionary;
+package utils;
 
 import java.util.Comparator;
+
+import evolutionary.Individual;
 
 public class IndividualComparator implements Comparator<Individual> {
 

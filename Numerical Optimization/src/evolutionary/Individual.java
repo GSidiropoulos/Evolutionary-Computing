@@ -11,24 +11,13 @@ public class Individual {
 	private double[] genomes = new double[10];
 	private double[] sigma;
 	private double fitness;
+
 	private MutationType mutationType;
 	private ContestEvaluation evaluation;
+	private ThreadLocalRandom rand = ThreadLocalRandom.current();
+
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
-
-	// for testing purpose
-//	public Individual() {
-//		super();
-//		sigma = 1.0;
-//		setGenomes();
-//	}
-//
-//	public Individual(double[] genomes, double sigma) {
-//		super();
-//		this.genomes = validateGenomesNaive(genomes);
-//		this.sigma = sigma;
-//	}
-	/////////////////////////////////////
 
 	public Individual(ContestEvaluation evaluation, MutationType mutationType) {
 		super();
@@ -36,7 +25,6 @@ public class Individual {
 		this.mutationType = mutationType;
 
 		sigma = new double[this.mutationType.getNumOfSigmas()];
-
 		for (int i = 0; i < sigma.length; i++) {
 			sigma[i] = 1.0;
 		}
@@ -57,7 +45,7 @@ public class Individual {
 	private void setGenomes() {
 
 		for (int i = 0; i < genomes.length; i++) {
-			genomes[i] = ThreadLocalRandom.current().nextDouble(ORIGIN, BOUND);
+			genomes[i] = rand.nextDouble(ORIGIN, BOUND);
 		}
 
 	}
@@ -76,6 +64,10 @@ public class Individual {
 
 	public double[] getGenomes() {
 		return genomes;
+	}
+
+	public MutationType getMutationType() {
+		return mutationType;
 	}
 
 	public double getFitness() {

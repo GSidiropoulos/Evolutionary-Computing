@@ -66,10 +66,8 @@ public class Mutation {
 
 		double[] sigmaNewArray = new double[1];
 		sigmaNewArray[0] = sigmaNew;
-		return new Individual(genomesNew, sigmaNewArray, indv.getEvaluation(), type);
 
-		// // test
-		// return new Individual(genomesNew, sigmaNew);
+		return new Individual(genomesNew, sigmaNewArray, indv.getEvaluation(), type);
 	}
 
 	// Uncorrelated mutation with n σ’s
