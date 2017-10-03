@@ -62,6 +62,7 @@ public class Mutation {
 
 		for (int i = 0; i < genomes.length; i++) {
 			genomesNew[i] = genomes[i] + sigmaNew * rand.nextGaussian();
+			// genomesNew[i] = genomes[i] + sigmaNew * indv.getNrmlDstrN(i);
 		}
 
 		double[] sigmaNewArray = new double[1];
@@ -76,6 +77,8 @@ public class Mutation {
 		double[] sigmaNew = new double[sigma.length];
 
 		for (int i = 0; i < sigmaNew.length; i++) {
+			// sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
+			// rand.nextGaussian());
 			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] * rand.nextGaussian());
 		}
 
@@ -84,6 +87,7 @@ public class Mutation {
 
 		for (int i = 0; i < genomes.length; i++) {
 			genomesNew[i] = genomes[i] + sigmaNew[i] * rand.nextGaussian();
+			// genomesNew[i] = genomes[i] + sigmaNew[i] * indv.getNrmlDstrN(i);
 		}
 
 		return new Individual(genomesNew, sigmaNew, indv.getEvaluation(), type);

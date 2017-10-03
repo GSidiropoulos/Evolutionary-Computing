@@ -3,7 +3,6 @@ package evolutionary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import utils.IndividualComparator;
@@ -16,7 +15,7 @@ public class Selection {
 	// Parent selection
 
 	// selects parent uniformly randomly
-	public static List<Integer> selectParentsRandom(int popSize, int numOfParents) {
+	public static List<Integer> uniform(int popSize, int numOfParents) {
 
 		List<Integer> parentId = new ArrayList<Integer>();
 		for (int i = 0; i < numOfParents; i++) {
@@ -25,6 +24,10 @@ public class Selection {
 
 		return parentId;
 
+	}
+	
+	public static void tournament() {
+		
 	}
 
 	// Survivor selection

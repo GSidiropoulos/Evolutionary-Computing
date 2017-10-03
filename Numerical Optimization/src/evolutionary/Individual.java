@@ -10,6 +10,7 @@ public class Individual {
 
 	private double[] genomes = new double[10];
 	private double[] sigma;
+	private double[] nrmlDstrN = new double[10];
 	private double fitness;
 
 	private MutationType mutationType;
@@ -29,7 +30,11 @@ public class Individual {
 			sigma[i] = 1.0;
 		}
 
+		// init genomes
 		setGenomes();
+		// init value draw from normal distribution N_i
+		setNrmlDstrN();
+		// calculate fitness
 		calculateFitness();
 	}
 
@@ -39,15 +44,14 @@ public class Individual {
 		this.sigma = sigma;
 		this.mutationType = mutationType;
 		this.evaluation = evaluation;
+		setNrmlDstrN();
 		calculateFitness();
 	}
 
 	private void setGenomes() {
-
 		for (int i = 0; i < genomes.length; i++) {
 			genomes[i] = rand.nextDouble(ORIGIN, BOUND);
 		}
-
 	}
 
 	public ContestEvaluation getEvaluation() {
@@ -76,6 +80,16 @@ public class Individual {
 
 	private void calculateFitness() {
 		this.fitness = (double) evaluation.evaluate(genomes);
+	}
+
+	public double getNrmlDstrN(int i) {
+		return nrmlDstrN[i];
+	}
+
+	private void setNrmlDstrN() {
+		for (int i = 0; i < nrmlDstrN.length; i++) {
+			nrmlDstrN[i] = rand.nextGaussian();
+		}
 	}
 
 	@Override

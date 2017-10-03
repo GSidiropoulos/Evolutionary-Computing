@@ -55,22 +55,22 @@ public class player29 implements ContestSubmission {
 
 		// init population
 		int popSize = 10;
-		Population pop = new Population(popSize, evaluation_, Mutation.MutationType.UNCORRELATED);
+		Population pop = new Population(popSize, evaluation_, Mutation.MutationType.UNCORRELATED_N);
 
 		// initialize mutation
-		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED);
+		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED_N);
 
 		int evals = 0;
 		while (evals < evaluations_limit_) {
 
 			// Select parents
-			List<Integer> parentIds = Selection.selectParentsRandom(10, 10);
+			List<Integer> parentIds = Selection.uniform(10, 10);
 
 			// Apply crossover / mutation operators
 			List<Individual> newPop = new ArrayList<Individual>();
 
 			for (int i : parentIds) {
-				newPop.add(Mutation.uncorrelatedMutation(pop.getPopulation().get(i)));
+				newPop.add(Mutation.uncorrelatedMutationN(pop.getPopulation().get(i)));
 			}
 			newPop.addAll(pop.getPopulation());
 			System.out.println(newPop.size());
