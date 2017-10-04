@@ -1,10 +1,12 @@
 package evolutionary;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Crossover {
 
-	// static??
+	static ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 	public static Individual average(List<Individual> indvs) {
 
@@ -29,6 +31,58 @@ public class Crossover {
 		}
 
 		return new Individual(genomes, sigma, indvs.get(0).getEvaluation(), indvs.get(0).getMutationType());
+	}
+
+	public static List<Individual> uniform(List<Individual> indvs) {
+
+		int numOfGenomes = indvs.get(0).getGenomes().length;
+		double[] c1Genomes = new double[numOfGenomes];
+		double[] c2Genomes = new double[numOfGenomes];
+
+		int numOfSigmas = indvs.get(0).getSigma().length;
+		double[] c1Sigma = new double[numOfSigmas];
+		double[] c2Sigma = new double[numOfSigmas];
+
+		if (numOfSigmas == 1) {
+
+			for (int i = 0; i < c1Genomes.length; i++) {
+				if (rand.nextInt(0, 2) == 0) {
+					//
+					c1Genomes[i] = indvs.get(0).getGenomes()[i];
+					c2Genomes[i] = indvs.get(1).getGenomes()[i];
+				} else {
+					c1Genomes[i] = indvs.get(1).getGenomes()[i];
+					c2Genomes[i] = indvs.get(0).getGenomes()[i];
+				}
+			}
+			c1Sigma = indvs.get(0).getSigma();
+			c2Sigma = indvs.get(1).getSigma();
+		} else {
+			for (int i = 0; i < c1Genomes.length; i++) {
+
+				if (rand.nextInt(0, 2) == 0) {
+					//
+					c1Genomes[i] = indvs.get(0).getGenomes()[i];
+					c2Genomes[i] = indvs.get(1).getGenomes()[i];
+
+					//
+					c1Sigma[i] = indvs.get(0).getSigma()[i];
+					c2Sigma[i] = indvs.get(1).getSigma()[i];
+				} else {
+					c1Genomes[i] = indvs.get(1).getGenomes()[i];
+					c2Genomes[i] = indvs.get(0).getGenomes()[i];
+
+					c1Sigma[i] = indvs.get(1).getSigma()[i];
+					c2Sigma[i] = indvs.get(0).getSigma()[i];
+				}
+			}
+
+		}
+		List<Individual> childs = new ArrayList<>();
+		childs.add(new Individual(c1Genomes, c1Sigma, indvs.get(0).getEvaluation(), indvs.get(0).getMutationType()));
+		childs.add(new Individual(c2Genomes, c2Sigma, indvs.get(0).getEvaluation(), indvs.get(0).getMutationType()));
+
+		return childs;
 	}
 
 }

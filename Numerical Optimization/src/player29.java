@@ -3,14 +3,18 @@ import org.vu.contest.ContestSubmission;
 import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
+import evolutionary.Mutation.MutationType;
 import evolutionary.Population;
 import evolutionary.Selection;
+import strategy.EvolutionaryStrategyUnimodal;
 
 import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -53,45 +57,18 @@ public class player29 implements ContestSubmission {
 
 	public void run() {
 
-		// init population
-		int popSize = 10;
-		Population pop = new Population(popSize, evaluation_, Mutation.MutationType.UNCORRELATED_N);
+		EvolutionaryStrategyUnimodal strategy = new EvolutionaryStrategyUnimodal(10, evaluations_limit_,
+				MutationType.UNCORRELATED_N, evaluation_);
 
-		// initialize mutation
-		Mutation.init(popSize, Mutation.MutationType.UNCORRELATED_N);
-
-		int evals = 0;
-		while (evals < evaluations_limit_) {
-
-			// Select parents
-			List<Integer> parentIds = Selection.uniform(10, 10);
-
-			// Apply crossover / mutation operators
-			List<Individual> newPop = new ArrayList<Individual>();
-
-			for (int i : parentIds) {
-				newPop.add(Mutation.uncorrelatedMutationN(pop.getPopulation().get(i)));
-			}
-			newPop.addAll(pop.getPopulation());
-			System.out.println(newPop.size());
-			List<Individual> lol = Selection.plusStrategy(newPop, 10);
-
-			// remove all parents from population
-			pop.removeFromPopulation(pop.getPopulation());
-
-			// replace parents with children
-			pop.setPopulation(lol);
-
-			for (Individual i : pop.getPopulation()) {
-				System.out.println(i.toString());
-			}
-
-			System.out.println("----------------------------------------");
-
-			evals = evals + 10;
-
-		}
-
+		strategy.evolve(10);
+		// initialize population
+		// Population population = new Population(10, evaluation_,
+		// MutationType.UNCORRELATED_N);
+		// List<List<Individual>> setPairs =
+		// Selection.tournament(population.getPopulation(), 2, 5);
+		// for (List<Individual> h : setPairs) {
+		// System.out.println(h.toString());
+		// }
 	}
 
 }

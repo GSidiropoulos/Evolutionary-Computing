@@ -65,7 +65,7 @@ public class Population {
 	}
 
 	public void sortPopulation() {
-		// sort population in descending order
+		// sort population in descending order w.r.t fitness
 		Collections.sort(population, new IndividualComparator());
 	}
 

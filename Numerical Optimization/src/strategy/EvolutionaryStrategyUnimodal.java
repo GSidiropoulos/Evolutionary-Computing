@@ -6,6 +6,7 @@ import java.util.List;
 import org.vu.contest.ContestEvaluation;
 
 import evolutionary.Mutation.MutationType;
+import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
 import evolutionary.Population;
@@ -19,9 +20,54 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 		// TODO Auto-generated constructor stub
 	}
 
+	// @Override
+	// public void evolve(int lambda) {
+	//
+	// int evals = 0;
+	// while (evals < evaluationsLimit) {
+	//
+	// List<List<Individual>> indvs =
+	// Selection.tournament(population.getPopulation(), 2, 5);
+	//
+	// List<Individual> crossIndvs = new ArrayList<>();
+	// for (List<Individual> listIndv : indvs) {
+	// crossIndvs.addAll(Crossover.uniform(listIndv));
+	// }
+	//
+	// List<Individual> mutIndvs = new ArrayList<>();
+	// for (Individual indv : crossIndvs) {
+	// mutIndvs.add(Mutation.uncorrelatedMutationN(indv));
+	// }
+	//
+	// crossIndvs.addAll(mutIndvs);
+	// System.out.println("Population Size: " + crossIndvs);
+	//
+	// crossIndvs.addAll(population.getPopulation());
+	// System.out.println("Population Size: " + crossIndvs);
+	//
+	// List<Individual> keepIndv = Selection.plusStrategy(crossIndvs, lambda);
+	//
+	// // remove all parents from population
+	// population.removeFromPopulation(population.getPopulation());
+	//
+	// // replace parents with children
+	// population.setPopulation(keepIndv);
+	//
+	//// for (Individual i : population.getPopulation()) {
+	//// System.out.println(i.toString());
+	//// }
+	////
+	//// System.out.println("----------------------------------------");
+	//
+	// evals = evals + lambda;
+	//
+	// }
+	//
+	// }
+
 	@Override
 	public void evolve(int lambda) {
-		
+
 		int evals = 0;
 		while (evals < evaluationsLimit) {
 
@@ -32,11 +78,11 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 			List<Individual> newPop = new ArrayList<Individual>();
 
 			for (int i : mutatedIds) {
-				newPop.add(Mutation.uncorrelatedMutation(population.getPopulation().get(i)));
+				newPop.add(Mutation.uncorrelatedMutationN(population.getPopulation().get(i)));
 			}
 
 			newPop.addAll(population.getPopulation());
-			System.out.println("Population Size: " + newPop.size());
+			// System.out.println("Population Size: " + newPop.size());
 
 			List<Individual> keepIndv = Selection.plusStrategy(newPop, lambda);
 
@@ -45,12 +91,12 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 			// replace parents with children
 			population.setPopulation(keepIndv);
-
-			for (Individual i : population.getPopulation()) {
-				System.out.println(i.toString());
-			}
-
-			System.out.println("----------------------------------------");
+			//
+			// for (Individual i : population.getPopulation()) {
+			// System.out.println(i.toString());
+			// }
+			//
+			// System.out.println("----------------------------------------");
 
 			evals = evals + lambda;
 
