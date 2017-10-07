@@ -79,23 +79,32 @@ public class Population {
 
 	}
 
-	public void shareFitness() {
+	public void shareFitness(double sigmaShare) {
 
-		double sigmaShare = 0;
-		
+		List<Double> fitnessPrime = new ArrayList<>();
+
 		for (Individual i : population) {
+			double sumOfSh = 0;
 
-			for(Individual j : population) {
+			for (Individual j : population) {
+				// calculate distance between genomes
 				double distance = Calculate.euclideanDistance(i, j);
+
 				double sh;
-				
-				if(distance <= sigmaShare) {
-					
-				}
-				else {
+				if (distance <= sigmaShare) {
+					sh = 1 - distance / sigmaShare;
+				} else {
 					sh = 0;
 				}
+				sumOfSh += sh;
 			}
+
+			fitnessPrime.add(i.getFitness() / sumOfSh);
+		}
+
+		// update fitness values
+		for (int i = 0; i < popSize; i++) {
+			population.get(i).setFitness(fitnessPrime.get(i));
 		}
 
 	}

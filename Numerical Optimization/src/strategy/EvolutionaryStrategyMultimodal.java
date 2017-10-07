@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.vu.contest.ContestEvaluation;
 
+import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
 import evolutionary.Selection;
@@ -18,72 +19,31 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void evolve(int lambda) {
-
-		int evals = 0;
-		while (evals < evaluationsLimit - 1) {
-
-			if (evals % (250 * populationSize) == 0) {
-				population.reInitializePopulation();
-			}
-
-			// Select individuals for mutation
-			List<Individual> mutated = Selection.uniform(population.getPopulation(), lambda);
-
-			// Apply crossover / mutation operators
-			List<Individual> newPop = new ArrayList<Individual>();
-
-			for (Individual indv : mutated) {
-				newPop.add(Mutation.uncorrelatedMutationN(indv));
-			}
-
-			newPop.addAll(population.getPopulation());
-			// System.out.println("Population Size: " + newPop.size());
-
-			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
-
-			// remove all parents from population
-			population.removeFromPopulation(population.getPopulation());
-
-			// replace parents with children
-			population.setPopulation(keepIndv);
-
-			evals = evals + lambda;
-
-		}
-
-	}
-	
 	// @Override
 	// public void evolve(int lambda) {
 	//
 	// int evals = 0;
-	// while (evals < evaluationsLimit) {
+	// while (evals < evaluationsLimit - 1) {
 	//
-	// List<Individual> newIndvs = new ArrayList<>();
-	//
-	// // crossover
-	// for (int i = 0; i < 50; i++) {
-	// // Select individuals for crossover
-	// List<Individual> crossover = Selection.uniform(population.getPopulation(),
-	// 2);
-	//
-	// newIndvs.add(Crossover.average(crossover));
+	// if (evals % (250 * populationSize) == 0) {
+	// population.reInitializePopulation();
 	// }
 	//
-	// //Collections.sort(newIndvs, new IndividualComparator());
+	// // Select individuals for mutation
+	// List<Individual> mutated = Selection.uniform(population.getPopulation(),
+	// lambda);
 	//
-	// // mutation
-	// for (int i=0;i<30;i++) {
-	// newIndvs.add(Mutation.uncorrelatedMutationN(Selection.uniform(population.getPopulation(),
-	// 1).get(0)));
+	// // Apply crossover / mutation operators
+	// List<Individual> newPop = new ArrayList<Individual>();
+	//
+	// for (Individual indv : mutated) {
+	// newPop.add(Mutation.uncorrelatedMutationN(indv));
 	// }
 	//
-	// //newIndvs.addAll(population.getPopulation());
-	// System.out.println("Population Size: " + newIndvs.size());
+	// newPop.addAll(population.getPopulation());
+	// // System.out.println("Population Size: " + newPop.size());
 	//
-	// List<Individual> keepIndv = Selection.plusStrategy(newIndvs, lambda);
+	// List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
 	//
 	// // remove all parents from population
 	// population.removeFromPopulation(population.getPopulation());
@@ -96,5 +56,45 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	// }
 	//
 	// }
+
+	@Override
+	public void evolve(int lambda) {
+
+		int evals = 0;
+		while (evals < evaluationsLimit) {
+
+			List<Individual> newIndvs = new ArrayList<>();
+
+			// crossover
+			for (int i = 0; i < lambda; i++) {
+				// Select individuals for crossover
+				List<Individual> crossover = Selection.uniform(population.getPopulation(), 2);
+
+				newIndvs.add(Crossover.average(crossover));
+			}
+
+			// Collections.sort(newIndvs, new IndividualComparator());
+
+			// mutation
+			for (int i = 0; i < 30; i++) {
+				newIndvs.add(Mutation.uncorrelatedMutationN(Selection.uniform(population.getPopulation(), 1).get(0)));
+			}
+
+			newIndvs.addAll(population.getPopulation());
+			//System.out.println("Population Size: " + newIndvs.size());
+
+			List<Individual> keepIndv = Selection.plusStrategy(newIndvs, lambda);
+
+			// remove all parents from population
+			population.removeFromPopulation(population.getPopulation());
+
+			// replace parents with children
+			population.setPopulation(keepIndv);
+
+			evals = evals + lambda;
+
+		}
+
+	}
 
 }

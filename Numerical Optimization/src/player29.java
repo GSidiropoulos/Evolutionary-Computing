@@ -59,11 +59,15 @@ public class player29 implements ContestSubmission {
 
 	public void run() {
 
-		EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(10, evaluations_limit_,
-				MutationType.UNCORRELATED_N, evaluation_);
+//		EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
+//				MutationType.UNCORRELATED_N, evaluation_);
+//
+//		strategy.evolve(50);
+
+		EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(10, evaluations_limit_,
+				MutationType.UNCORRELATED, evaluation_);
 
 		strategy.evolve(10);
-
 	}
 	
 	

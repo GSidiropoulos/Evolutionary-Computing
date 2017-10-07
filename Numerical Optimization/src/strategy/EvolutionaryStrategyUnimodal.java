@@ -22,51 +22,42 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	@Override
 	public void evolve(int lambda) {
-		// TODO Auto-generated method stub
-		
+
+		int evals = 0;
+		while (evals < evaluationsLimit - 1) {
+
+			List<Individual> newPop = new ArrayList<Individual>();
+
+			// select parents and apply mutation			
+			for (int i = 0; i < lambda; i++) {
+				
+				// Select individuals for mutation
+				List<Individual> mutated = Selection.uniform(population.getPopulation(), lambda);
+
+				// Mutate offspring
+				for (Individual indv : mutated) {
+					newPop.add(Mutation.uncorrelatedMutation(indv));
+				}
+			}
+
+			newPop.addAll(population.getPopulation());
+			
+			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
+
+			// remove all parents from population
+			population.removeFromPopulation(population.getPopulation());
+
+			// replace parents with children
+			population.setPopulation(keepIndv);
+
+			evals = evals + lambda;
+
+		}
+
 	}
-
-
-
-//	@Override
-//	public void evolve(int lambda) {
-//
-//		int evals = 0;
-//		while (evals < evaluationsLimit - 1) {
-//
-//			// Apply crossover / mutation operators
-//			List<Individual> newPop = new ArrayList<Individual>();
-//
-//			for (int i = 0; i < lambda; i++) {
-//				// Select individuals for crossover
-//				List<Individual> cross = Selection.uniform(population.getPopulation(), lambda);
-//
-//				// Apply crossover
-//				List<Individual> indvs = Crossover.uniform(cross);
-//				newPop.addAll(indvs);
-//
-//				// Mutate offspring
-//				for (Individual indv : indvs) {
-//					newPop.add(Mutation.uncorrelatedMutationN(indv));
-//				}
-//			}
-//
-//			//newPop.addAll(population.getPopulation());
-//			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
-//
-//			// remove all parents from population
-//			population.removeFromPopulation(population.getPopulation());
-//
-//			// replace parents with children
-//			population.setPopulation(keepIndv);
-//
-//			evals = evals + lambda;
-//
-//		}
-//
-//	}
 
 
 }
