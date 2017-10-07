@@ -71,14 +71,17 @@ public class Selection {
 	}
 
 	// select uniformly randomly
-	public static List<Integer> uniform(int popSize, int numOfParents) {
+	public static List<Individual> uniform(List<Individual> indvs, int numOfParents) {
 
-		List<Integer> parentId = new ArrayList<Integer>();
-		for (int i = 0; i < numOfParents; i++) {
-			parentId.add(rand.nextInt(0, popSize));// SELECT DISTINCT
+		int[] parentId = null;
+		parentId = rand.ints(numOfParents, 0, indvs.size()).distinct().toArray();// SELECT DISTINCT
+
+		List<Individual> selected = new ArrayList<>();
+		for (int id : parentId) {
+			selected.add(indvs.get(id));
 		}
 
-		return parentId;
+		return selected;
 
 	}
 

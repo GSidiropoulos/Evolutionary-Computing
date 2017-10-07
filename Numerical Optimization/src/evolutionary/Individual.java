@@ -78,6 +78,10 @@ public class Individual {
 		return fitness;
 	}
 
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
+	}
+
 	private void calculateFitness() {
 		this.fitness = (double) evaluation.evaluate(genomes);
 	}

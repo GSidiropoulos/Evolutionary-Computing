@@ -6,6 +6,8 @@ import evolutionary.Mutation;
 import evolutionary.Mutation.MutationType;
 import evolutionary.Population;
 import evolutionary.Selection;
+import strategy.EvolutionaryStrategy;
+import strategy.EvolutionaryStrategyMultimodal;
 import strategy.EvolutionaryStrategyUnimodal;
 
 import org.vu.contest.ContestEvaluation;
@@ -57,18 +59,15 @@ public class player29 implements ContestSubmission {
 
 	public void run() {
 
-		EvolutionaryStrategyUnimodal strategy = new EvolutionaryStrategyUnimodal(10, evaluations_limit_,
+		EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(10, evaluations_limit_,
 				MutationType.UNCORRELATED_N, evaluation_);
 
 		strategy.evolve(10);
-		// initialize population
-		// Population population = new Population(10, evaluation_,
-		// MutationType.UNCORRELATED_N);
-		// List<List<Individual>> setPairs =
-		// Selection.tournament(population.getPopulation(), 2, 5);
-		// for (List<Individual> h : setPairs) {
-		// System.out.println(h.toString());
-		// }
+
 	}
+	
+	
+	// public static void main(String args[]) {
+	// }
 
 }

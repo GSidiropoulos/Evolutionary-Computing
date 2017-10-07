@@ -7,6 +7,7 @@ import java.util.List;
 import org.vu.contest.ContestEvaluation;
 
 import evolutionary.Mutation.MutationType;
+import utils.Calculate;
 import utils.IndividualComparator;
 
 public class Population {
@@ -67,6 +68,36 @@ public class Population {
 	public void sortPopulation() {
 		// sort population in descending order w.r.t fitness
 		Collections.sort(population, new IndividualComparator());
+	}
+
+	public void reInitializePopulation() {
+		removeFromPopulation(population);
+
+		for (int i = 0; i < popSize; i++) {
+			population.add(new Individual(evaluation, mutationType));
+		}
+
+	}
+
+	public void shareFitness() {
+
+		double sigmaShare = 0;
+		
+		for (Individual i : population) {
+
+			for(Individual j : population) {
+				double distance = Calculate.euclideanDistance(i, j);
+				double sh;
+				
+				if(distance <= sigmaShare) {
+					
+				}
+				else {
+					sh = 0;
+				}
+			}
+		}
+
 	}
 
 }

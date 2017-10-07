@@ -76,10 +76,11 @@ public class Mutation {
 		double[] sigma = indv.getSigma();
 		double[] sigmaNew = new double[sigma.length];
 
+		double n = rand.nextGaussian();
 		for (int i = 0; i < sigmaNew.length; i++) {
-			// sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
-			// rand.nextGaussian());
-			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] * rand.nextGaussian());
+//			 sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
+//			 rand.nextGaussian());
+			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * n + tau[1] * rand.nextGaussian());
 		}
 
 		double[] genomes = indv.getGenomes();
