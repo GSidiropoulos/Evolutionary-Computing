@@ -7,6 +7,7 @@ import evolutionary.Mutation.MutationType;
 import evolutionary.Population;
 import evolutionary.Selection;
 import strategy.EvolutionaryStrategy;
+import strategy.EvolutionaryStrategyKatsuura;
 import strategy.EvolutionaryStrategyMultimodal;
 import strategy.EvolutionaryStrategyUnimodal;
 
@@ -58,17 +59,33 @@ public class player29 implements ContestSubmission {
 	}
 
 	public void run() {
+		// Get evaluation properties
+		Properties props = evaluation_.getProperties();
+		// Get evaluation limit
+		evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+		// Property keys depend on specific evaluation
+		// E.g. double param = Double.parseDouble(props.getProperty("property_name"));
+		boolean isMultimodal = Boolean.parseBoolean(props.getProperty("Multimodal"));
+		boolean hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
+		boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
-//		EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
-//				MutationType.UNCORRELATED_N, evaluation_);
-//
-//		strategy.evolve(50, 30);
+		if (!isMultimodal) {
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(17, evaluations_limit_,
+					MutationType.UNCORRELATED, evaluation_);
+			strategy.evolve(0, 10);
+		} else {
+			if (hasStructure) {
+				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(120, evaluations_limit_,
+						MutationType.UNCORRELATED_N, evaluation_);
+				strategy.evolve(50, 80);
 
-		 EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(10,
-		 evaluations_limit_,
-		 MutationType.UNCORRELATED, evaluation_);
-		
-		 strategy.evolve(0,10);
+			} else {
+				EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120, evaluations_limit_,
+						MutationType.UNCORRELATED_N, evaluation_);
+				strategy.evolve(50, 120);
+			}
+		}
+
 	}
 
 	// for parameter tuning
@@ -79,9 +96,9 @@ public class player29 implements ContestSubmission {
 			double bestScore = -1;
 			int bestPopSize = 0;
 			int bestMutSize = 0;
-			
+
 			for (int popSize = 5; popSize < 20; popSize++) {
-				for(int mutSize=1; mutSize<= popSize; mutSize++) {
+				for (int mutSize = 1; mutSize <= popSize; mutSize++) {
 					ContestEvaluation evaluation = new BentCigarFunction();
 					Properties props = evaluation.getProperties();
 					int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
@@ -102,13 +119,13 @@ public class player29 implements ContestSubmission {
 					if (bestCurrentScore > bestScore) {
 						bestScore = bestCurrentScore;
 						bestPopSize = popSize;
-						bestMutSize= mutSize;
+						bestMutSize = mutSize;
 					}
 				}
-				
+
 			}
 
-			System.out.println("Pop: "+bestPopSize+" Mut: "+bestMutSize +" Score: "  + bestScore);
+			System.out.println("Pop: " + bestPopSize + " Mut: " + bestMutSize + " Score:" + bestScore);
 
 		} else if (args[0].equals("schaf")) {
 
@@ -119,17 +136,34 @@ public class player29 implements ContestSubmission {
 			EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
 					MutationType.UNCORRELATED_N, evaluation);
 
-			System.out.println("Here");
 			try {
 
-				strategy.evolve(50, 30);
+				strategy.evolve(50, 50);
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				System.out.println(evaluation.getFinalResult());
 			}
+
 			System.out.println("Best result: " + evaluation.getFinalResult());
+
 		} else {
 
+			ContestEvaluation evaluation = new KatsuuraEvaluation();
+			Properties props = evaluation.getProperties();
+			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120, evaluations_limit_,
+					MutationType.UNCORRELATED_N, evaluation);
+
+			try {
+
+				strategy.evolve(50, 120);
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				System.out.println(evaluation.getFinalResult());
+			}
+
+			System.out.println("Best result: " + evaluation.getFinalResult());
 		}
 
 	}

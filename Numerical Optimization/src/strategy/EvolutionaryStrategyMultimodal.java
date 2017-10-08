@@ -20,20 +20,20 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	}
 
 	// @Override
-	// public void evolve(int lambda) {
+	// public void evolve(int numOfCrIndv, int numOfMutIndv) {
 	//
 	// int evals = 0;
-	// while (evals < evaluationsLimit - 1) {
+	// while (evals+numOfMutIndv < evaluationsLimit) {
 	//
-	// if (evals % (250 * populationSize) == 0) {
+	// if (evals % (200 * populationSize) == 0) {
 	// population.reInitializePopulation();
 	// }
 	//
 	// // Select individuals for mutation
 	// List<Individual> mutated = Selection.uniform(population.getPopulation(),
-	// lambda);
+	// numOfMutIndv);
 	//
-	// // Apply crossover / mutation operators
+	// // Apply mutation operators
 	// List<Individual> newPop = new ArrayList<Individual>();
 	//
 	// for (Individual indv : mutated) {
@@ -51,21 +51,57 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	// // replace parents with children
 	// population.setPopulation(keepIndv);
 	//
-	// evals = evals + lambda;
+	// evals = evals + numOfMutIndv;
 	//
 	// }
 	//
 	// }
 
-	@Override
+	// @Override
+	// public void evolve(int numOfCrIndv, int numOfMutIndv) {
+	//
+	// int evals = populationSize;
+	// while (evals +(numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
+	//
+	// //List<Individual> newIndvs = new ArrayList<>();
+	// List<Individual> mutatedIndvs = new ArrayList<>();
+	// // crossover
+	// population.shareFitness(0.1);
+	//
+	// // mutation
+	// for (int i = 0; i < numOfMutIndv; i++) {
+	// mutatedIndvs.add(Mutation.uncorrelatedMutationN(Selection.uniform(population.getPopulation(),
+	// 1).get(0)));
+	// }
+	//
+	// mutatedIndvs.addAll(population.getPopulation());
+	//
+	// List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs,
+	// populationSize);
+	//
+	// // remove all parents from population
+	// population.removeFromPopulation(population.getPopulation());
+	//
+	// // replace parents with children
+	// population.setPopulation(keepIndv);
+	//
+	// evals = evals + (numOfCrIndv + numOfMutIndv);
+	//
+	// }
+	//
+	//
+	// }
+
+	// @Override
 	public void evolve(int numOfCrIndv, int numOfMutIndv) {
 
 		int evals = populationSize;
-		while (evals +(numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
-			System.out.println(evals);
-			List<Individual> newIndvs = new ArrayList<>();
+		while (evals + (numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
 
+			List<Individual> newIndvs = new ArrayList<>();
+			List<Individual> mutatedIndvs = new ArrayList<>();
 			// crossover
+			// population.shareFitness(0.1);
 			for (int i = 0; i < numOfCrIndv; i++) {
 				// Select individuals for crossover
 				List<Individual> crossover = Selection.uniform(population.getPopulation(), 5);
@@ -73,17 +109,17 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 				newIndvs.add(Crossover.average(crossover));
 			}
 
-			// Collections.sort(newIndvs, new IndividualComparator());
-
 			// mutation
 			for (int i = 0; i < numOfMutIndv; i++) {
-				newIndvs.add(Mutation.uncorrelatedMutationN(Selection.uniform(population.getPopulation(), 1).get(0)));
+				// mutatedIndvs.add(Mutation.uncorrelatedMutationN(Selection.uniform(population.getPopulation(),
+				// 1).get(0)));
+
+				mutatedIndvs.add(Mutation.uncorrelatedMutationN(newIndvs.get(i)));
 			}
 
-			newIndvs.addAll(population.getPopulation());
-			//System.out.println("Population Size: " + newIndvs.size());
+			mutatedIndvs.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(newIndvs, populationSize);
+			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -94,7 +130,6 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 			evals = evals + (numOfCrIndv + numOfMutIndv);
 
 		}
-		
 
 	}
 

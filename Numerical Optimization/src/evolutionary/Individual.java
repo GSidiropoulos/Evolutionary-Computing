@@ -27,6 +27,7 @@ public class Individual {
 
 		sigma = new double[this.mutationType.getNumOfSigmas()];
 		for (int i = 0; i < sigma.length; i++) {
+			// sigma[i] = 0.001;// for bentcigar
 			sigma[i] = 1.0;
 		}
 

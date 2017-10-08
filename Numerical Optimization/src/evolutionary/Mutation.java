@@ -38,6 +38,7 @@ public class Mutation {
 			type = t;
 			tau = new double[1];
 			tau[0] = 1.0 / Math.sqrt(popSize);
+
 		} else if (t == MutationType.UNCORRELATED_N) {
 			type = t;
 			tau = new double[2];
@@ -78,8 +79,8 @@ public class Mutation {
 
 		double n = rand.nextGaussian();
 		for (int i = 0; i < sigmaNew.length; i++) {
-//			 sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
-//			 rand.nextGaussian());
+			// sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
+			// rand.nextGaussian());
 			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * n + tau[1] * rand.nextGaussian());
 		}
 
