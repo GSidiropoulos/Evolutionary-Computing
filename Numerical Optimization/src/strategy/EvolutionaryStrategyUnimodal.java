@@ -22,8 +22,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 	public void evolve(int numOfCrIndv, int numOfMutIndv) {
 
 		int evals = populationSize;
-		while (evals + numOfMutIndv < evaluationsLimit - 1) {
-			System.out.println(evaluationsLimit + " " + evals);
+		while (evals + numOfMutIndv < evaluationsLimit) {
 			List<Individual> newPop = new ArrayList<Individual>();
 
 			// Select individuals for mutation

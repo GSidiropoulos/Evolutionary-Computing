@@ -72,62 +72,66 @@ public class player29 implements ContestSubmission {
 	}
 
 	// for parameter tuning
-//	public static void main(String args[]) {
-//
-//		if (args[0].equals("bent")) {
-//
-//			double bestScore = -1;
-//			int pos;
-//			ContestEvaluation evaluation = new SchaffersEvaluation();
-//			Properties props = evaluation.getProperties();
-//			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
-//			
-//			for (int i = 10; i < 100; i++) {
-//				// init
-//				EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(i, evaluations_limit_,
-//						MutationType.UNCORRELATED, evaluation);
-//
-//				// evolve population
-//				try {
-//					strategy.evolve(0, i);
-//				} catch (Exception e) {
-//					System.out.println(e.toString());
-//					System.out.println(evaluation.getFinalResult());
-//				}
-//				double bestCurrentScore = evaluation.getFinalResult();
-//				System.out.println("Best result " + i + ": " + bestCurrentScore);
-//
-//				if (bestCurrentScore > bestScore) {
-//					bestScore = bestCurrentScore;
-//					pos = i;
-//				}
-//
-//			}
-//
-//			System.out.println("i " + bestScore);
-//
-//		} else if (args[0].equals("schaf")) {
-//
-//			ContestEvaluation evaluation = new SchaffersEvaluation();
-//			Properties props = evaluation.getProperties();
-//			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
-//
-//			EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
-//					MutationType.UNCORRELATED_N, evaluation);
-//
-//			System.out.println("Here");
-//			try {
-//
-//				strategy.evolve(50, 30);
-//			} catch (Exception e) {
-//				System.out.println(e.toString());
-//				System.out.println(evaluation.getFinalResult());
-//			}
-//			System.out.println("Best result: " + evaluation.getFinalResult());
-//		} else {
-//
-//		}
-//
-//	}
+	public static void main(String args[]) {
+
+		if (args[0].equals("bent")) {
+
+			double bestScore = -1;
+			int bestPopSize = 0;
+			int bestMutSize = 0;
+			
+			for (int popSize = 5; popSize < 20; popSize++) {
+				for(int mutSize=1; mutSize<= popSize; mutSize++) {
+					ContestEvaluation evaluation = new BentCigarFunction();
+					Properties props = evaluation.getProperties();
+					int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+					// init
+					EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(popSize, evaluations_limit_,
+							MutationType.UNCORRELATED, evaluation);
+
+					// evolve population
+					try {
+						strategy.evolve(0, popSize);
+					} catch (Exception e) {
+						System.out.println(e.toString());
+						System.out.println(evaluation.getFinalResult());
+					}
+					double bestCurrentScore = evaluation.getFinalResult();
+					System.out.println("Best result " + popSize + ": " + bestCurrentScore);
+
+					if (bestCurrentScore > bestScore) {
+						bestScore = bestCurrentScore;
+						bestPopSize = popSize;
+						bestMutSize= mutSize;
+					}
+				}
+				
+			}
+
+			System.out.println("Pop: "+bestPopSize+" Mut: "+bestMutSize +" Score: "  + bestScore);
+
+		} else if (args[0].equals("schaf")) {
+
+			ContestEvaluation evaluation = new SchaffersEvaluation();
+			Properties props = evaluation.getProperties();
+			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
+					MutationType.UNCORRELATED_N, evaluation);
+
+			System.out.println("Here");
+			try {
+
+				strategy.evolve(50, 30);
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				System.out.println(evaluation.getFinalResult());
+			}
+			System.out.println("Best result: " + evaluation.getFinalResult());
+		} else {
+
+		}
+
+	}
 
 }
