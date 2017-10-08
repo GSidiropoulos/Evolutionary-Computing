@@ -1,17 +1,13 @@
 package strategy;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.vu.contest.ContestEvaluation;
 
 import evolutionary.Mutation.MutationType;
-import utils.IndividualComparator;
-import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
-import evolutionary.Population;
 import evolutionary.Selection;
 
 public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
@@ -22,29 +18,24 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	@Override
-	public void evolve(int lambda) {
+	public void evolve(int numOfCrIndv, int numOfMutIndv) {
 
-		int evals = 0;
-		while (evals < evaluationsLimit - 1) {
-
+		int evals = populationSize;
+		while (evals + numOfMutIndv < evaluationsLimit - 1) {
+			System.out.println(evaluationsLimit + " " + evals);
 			List<Individual> newPop = new ArrayList<Individual>();
 
-			// select parents and apply mutation			
-			for (int i = 0; i < lambda; i++) {
-				
-				// Select individuals for mutation
-				List<Individual> mutated = Selection.uniform(population.getPopulation(), lambda);
+			// Select individuals for mutation
+			List<Individual> mutated = Selection.uniform(population.getPopulation(), numOfMutIndv);
 
-				// Mutate offspring
-				for (Individual indv : mutated) {
-					newPop.add(Mutation.uncorrelatedMutation(indv));
-				}
+			// Mutate offspring
+			for (Individual indv : mutated) {
+				newPop.add(Mutation.uncorrelatedMutation(indv));
 			}
 
 			newPop.addAll(population.getPopulation());
-			
+
 			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
 
 			// remove all parents from population
@@ -53,11 +44,10 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 			// replace parents with children
 			population.setPopulation(keepIndv);
 
-			evals = evals + lambda;
+			evals = evals + numOfMutIndv;
 
 		}
 
 	}
-
 
 }
