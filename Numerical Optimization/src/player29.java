@@ -72,17 +72,17 @@ public class player29 implements ContestSubmission {
 		if (!isMultimodal) {
 			EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(17, evaluations_limit_,
 					MutationType.UNCORRELATED, evaluation_);
-			strategy.evolve(0, 10);
+			strategy.evolve(0, 10, 0);
 		} else {
 			if (hasStructure) {
 				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(120, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
-				strategy.evolve(50, 80);
+				strategy.evolve(50, 80, 3);
 
 			} else {
 				EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
-				strategy.evolve(50, 120);
+				strategy.evolve(50, 120, 0);
 			}
 		}
 
@@ -108,7 +108,7 @@ public class player29 implements ContestSubmission {
 
 					// evolve population
 					try {
-						strategy.evolve(0, popSize);
+						strategy.evolve(0, popSize, 0);
 					} catch (Exception e) {
 						System.out.println(e.toString());
 						System.out.println(evaluation.getFinalResult());
@@ -138,7 +138,7 @@ public class player29 implements ContestSubmission {
 
 			try {
 
-				strategy.evolve(50, 50);
+				strategy.evolve(50, 50, 3);
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				System.out.println(evaluation.getFinalResult());
@@ -157,7 +157,7 @@ public class player29 implements ContestSubmission {
 
 			try {
 
-				strategy.evolve(50, 120);
+				strategy.evolve(50, 120, 0);
 			} catch (Exception e) {
 				System.out.println(e.toString());
 				System.out.println(evaluation.getFinalResult());

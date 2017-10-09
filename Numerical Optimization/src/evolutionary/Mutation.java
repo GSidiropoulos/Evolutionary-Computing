@@ -37,13 +37,18 @@ public class Mutation {
 		if (t == MutationType.UNCORRELATED) {
 			type = t;
 			tau = new double[1];
-			tau[0] = 1.0 / Math.sqrt(popSize);
+			tau[0] = 1.0 / Math.sqrt(10);
+
+			// tau[0] = 1.0 / Math.sqrt(popSize);
 
 		} else if (t == MutationType.UNCORRELATED_N) {
 			type = t;
 			tau = new double[2];
-			tau[0] = 1.0 / Math.sqrt(2 * popSize);
-			tau[1] = 1.0 / Math.sqrt(2 * Math.sqrt(popSize));
+			tau[0] = 1.0 / Math.sqrt(2 * 10);
+			tau[1] = 1.0 / Math.sqrt(2 * Math.sqrt(10));
+
+			// tau[0] = 1.0 / Math.sqrt(2 * popSize);
+			// tau[1] = 1.0 / Math.sqrt(2 * Math.sqrt(popSize));
 		}
 	}
 
@@ -63,7 +68,6 @@ public class Mutation {
 
 		for (int i = 0; i < genomes.length; i++) {
 			genomesNew[i] = genomes[i] + sigmaNew * rand.nextGaussian();
-			// genomesNew[i] = genomes[i] + sigmaNew * indv.getNrmlDstrN(i);
 		}
 
 		double[] sigmaNewArray = new double[1];
@@ -89,7 +93,6 @@ public class Mutation {
 
 		for (int i = 0; i < genomes.length; i++) {
 			genomesNew[i] = genomes[i] + sigmaNew[i] * rand.nextGaussian();
-			// genomesNew[i] = genomes[i] + sigmaNew[i] * indv.getNrmlDstrN(i);
 		}
 
 		return new Individual(genomesNew, sigmaNew, indv.getEvaluation(), type);

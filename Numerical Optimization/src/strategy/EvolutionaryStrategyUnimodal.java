@@ -18,7 +18,13 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	@Override
+	public void evolve(int numOfCrIndv, int numOfMutIndv, int type) {
+		evolve(numOfCrIndv, numOfMutIndv);
+		
+	}
+	
 	public void evolve(int numOfCrIndv, int numOfMutIndv) {
 
 		int evals = populationSize;

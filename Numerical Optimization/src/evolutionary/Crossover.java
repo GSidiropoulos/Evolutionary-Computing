@@ -26,10 +26,12 @@ public class Crossover {
 		}
 
 		for (int i = 0; i < genomes.length; i++) {
-//			genomes[i] = genomes[i] / genomes.length;
-//			sigma[i] = sigma[i] / genomes.length;
 			genomes[i] = genomes[i] / indvs.size();
 			sigma[i] = sigma[i] / indvs.size();
+			
+//			genomes[i] = genomes[i] / genomes.length;
+//			sigma[i] = sigma[i] / genomes.length;
+
 		}
 
 		return new Individual(genomes, sigma, indvs.get(0).getEvaluation(), indvs.get(0).getMutationType());

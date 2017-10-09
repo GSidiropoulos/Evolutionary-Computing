@@ -29,6 +29,6 @@ public abstract class EvolutionaryStrategy {
 		Mutation.init(populationSize, mutationType);
 	}
 
-	public abstract void evolve(int numOfCrIndv, int numOfMutIndv);
+	public abstract void evolve(int numOfCrIndv, int numOfMutIndv, int type);
 
 }

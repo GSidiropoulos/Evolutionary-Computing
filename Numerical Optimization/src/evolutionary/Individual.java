@@ -33,10 +33,12 @@ public class Individual {
 
 		// init genomes
 		setGenomes();
-		// init value draw from normal distribution N_i
-		setNrmlDstrN();
+
 		// calculate fitness
 		calculateFitness();
+
+		// // init value draw from normal distribution N_i
+		// setNrmlDstrN();
 	}
 
 	public Individual(double[] genomes, double[] sigma, ContestEvaluation evaluation, MutationType mutationType) {
@@ -45,8 +47,9 @@ public class Individual {
 		this.sigma = sigma;
 		this.mutationType = mutationType;
 		this.evaluation = evaluation;
-		setNrmlDstrN();
 		calculateFitness();
+
+		// setNrmlDstrN();
 	}
 
 	private void setGenomes() {

@@ -10,7 +10,7 @@ import evolutionary.Mutation;
 import evolutionary.Mutation.MutationType;
 import evolutionary.Selection;
 
-public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy{
+public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 	public EvolutionaryStrategyKatsuura(int populationSize, int evaluationsLimit, MutationType mutationType,
 			ContestEvaluation evaluationType) {
@@ -19,10 +19,15 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy{
 	}
 
 	@Override
+	public void evolve(int numOfCrIndv, int numOfMutIndv, int type) {
+		evolve(numOfCrIndv, numOfMutIndv);
+
+	}
+
 	public void evolve(int numOfCrIndv, int numOfMutIndv) {
 
 		int evals = 0;
-		while (evals+numOfMutIndv < evaluationsLimit) {
+		while (evals + numOfMutIndv < evaluationsLimit) {
 
 			if (evals % (200 * populationSize) == 0) {
 				population.reInitializePopulation();
