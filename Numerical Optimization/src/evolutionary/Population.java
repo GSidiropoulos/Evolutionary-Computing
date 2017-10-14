@@ -64,6 +64,10 @@ public class Population {
 	public void addIndividual(Individual indv) {
 		population.add(indv);
 	}
+	
+	public void addIndividual(List<Individual> indvs) {
+		population.addAll(indvs);
+	}
 
 	public void sortPopulation() {
 		// sort population in descending order w.r.t fitness

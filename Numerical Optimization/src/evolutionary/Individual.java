@@ -16,18 +16,22 @@ public class Individual {
 	private MutationType mutationType;
 	private ContestEvaluation evaluation;
 	private ThreadLocalRandom rand = ThreadLocalRandom.current();
+	private double crossRate = 0.1 * rand.nextGaussian() + 0.5;
 
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
 
 	public Individual(ContestEvaluation evaluation, MutationType mutationType) {
 		super();
+
 		this.evaluation = evaluation;
 		this.mutationType = mutationType;
+		// double lambda = 0.8 / Math.sqrt(10);
 
 		sigma = new double[this.mutationType.getNumOfSigmas()];
 		for (int i = 0; i < sigma.length; i++) {
 			// sigma[i] = 0.001;// for bentcigar
+			// sigma[i] = lambda * rand.nextInt(1, 11) *(BOUND - ORIGIN);
 			sigma[i] = 1.0;
 		}
 
@@ -36,25 +40,22 @@ public class Individual {
 
 		// calculate fitness
 		calculateFitness();
-
-		// // init value draw from normal distribution N_i
-		// setNrmlDstrN();
 	}
 
 	public Individual(double[] genomes, double[] sigma, ContestEvaluation evaluation, MutationType mutationType) {
 		super();
+
 		this.genomes = validateGenomesNaive(genomes);
 		this.sigma = sigma;
 		this.mutationType = mutationType;
 		this.evaluation = evaluation;
-		calculateFitness();
 
-		// setNrmlDstrN();
+		calculateFitness();
 	}
 
 	private void setGenomes() {
 		for (int i = 0; i < genomes.length; i++) {
-			genomes[i] = rand.nextDouble(ORIGIN, BOUND);
+			genomes[i] = ORIGIN + rand.nextDouble() * (BOUND - ORIGIN);// rand.nextDouble(ORIGIN, BOUND);
 		}
 	}
 
@@ -118,6 +119,14 @@ public class Individual {
 		}
 
 		return genomes;
+	}
+
+	public double getCrossRate() {
+		return crossRate;
+	}
+
+	public void setCrossRate(double crossRate) {
+		this.crossRate = crossRate;
 	}
 
 }

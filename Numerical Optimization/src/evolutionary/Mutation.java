@@ -39,16 +39,11 @@ public class Mutation {
 			tau = new double[1];
 			tau[0] = 1.0 / Math.sqrt(10);
 
-			// tau[0] = 1.0 / Math.sqrt(popSize);
-
 		} else if (t == MutationType.UNCORRELATED_N) {
 			type = t;
 			tau = new double[2];
 			tau[0] = 1.0 / Math.sqrt(2 * 10);
 			tau[1] = 1.0 / Math.sqrt(2 * Math.sqrt(10));
-
-			// tau[0] = 1.0 / Math.sqrt(2 * popSize);
-			// tau[1] = 1.0 / Math.sqrt(2 * Math.sqrt(popSize));
 		}
 	}
 
@@ -83,8 +78,6 @@ public class Mutation {
 
 		double n = rand.nextGaussian();
 		for (int i = 0; i < sigmaNew.length; i++) {
-			// sigmaNew[i] = sigma[i] * Math.exp(tau[0] * rand.nextGaussian() + tau[1] *
-			// rand.nextGaussian());
 			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * n + tau[1] * rand.nextGaussian());
 		}
 
@@ -97,6 +90,26 @@ public class Mutation {
 
 		return new Individual(genomesNew, sigmaNew, indv.getEvaluation(), type);
 
+	}
+
+	public static Individual cauchyMutation(Individual indv, double mutRatio, double numOfEvals, double evalsLimit) {
+
+		double[] sigma = indv.getSigma();
+
+		double[] genomes = indv.getGenomes();
+		double[] genomesNew = new double[10];
+
+		for (int i = 0; i < indv.getGenomes().length; i++) {
+
+			if (rand.nextDouble() <= mutRatio) {
+				sigma[i] = 1.0 - (numOfEvals / evalsLimit);
+				sigma[i] = Math.pow(sigma[i], 3);
+				genomesNew[i] = genomes[i] + sigma[i] * Math.tan(Math.PI * (rand.nextDouble() - 0.5));
+
+			}
+		}
+
+		return new Individual(genomesNew, sigma, indv.getEvaluation(), type);
 	}
 
 }

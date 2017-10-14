@@ -18,7 +18,7 @@ public class Selection {
 	// tournament selection
 	public static List<List<Individual>> tournament(List<Individual> indvs, int k, int numOfPairs) {
 		// set of pairs
-		HashSet<HashSet<Integer>> setPairs = new HashSet<>();
+		List<HashSet<Integer>> setPairs = new ArrayList<>();
 
 		// iterate over number of pairs
 		int createdPairs = 0;
@@ -47,10 +47,12 @@ public class Selection {
 				}
 			}
 
-			if (!setPairs.contains(pair)) {
-				setPairs.add(pair);
-				createdPairs++;
-			}
+//			if (!setPairs.contains(pair)) {
+//				setPairs.add(pair);
+//				createdPairs++;
+//			}
+			setPairs.add(pair);
+			createdPairs++;
 
 		}
 
@@ -74,8 +76,8 @@ public class Selection {
 	public static List<Individual> uniform(List<Individual> indvs, int numOfParents) {
 
 		int[] parentId = null;
-		parentId = rand.ints(numOfParents, 0, indvs.size()).distinct().toArray();// SELECT DISTINCT
-
+		parentId = chooseRandom(numOfParents, 0, indvs.size());// SELECT DISTINCT
+		//parentId = rand.ints(numOfParents, 0, indvs.size()).distinct().toArray();
 		List<Individual> selected = new ArrayList<>();
 		for (int id : parentId) {
 			selected.add(indvs.get(id));
@@ -90,7 +92,9 @@ public class Selection {
 	// (μ,λ)
 	public static List<Individual> commaStrategy(List<Individual> indvs, int mu) {
 		Collections.sort(indvs, new IndividualComparator());
-		return indvs.subList(0, mu - 1);
+		List<Individual>yolo = indvs.subList(0, (int) (mu *0.75));
+		yolo.addAll(indvs.subList((int) (indvs.size()-0.25*mu), indvs.size()));
+		return yolo;
 
 	}
 
@@ -98,5 +102,17 @@ public class Selection {
 		Collections.sort(indvs, new IndividualComparator());
 		return indvs.subList(0, mu);
 
+	}
+	
+	//
+	
+	private static int[] chooseRandom(int numOfParents, int origin, int bound) {
+		int[] parentId = new int[numOfParents];
+		
+		while(parentId.length < numOfParents) {
+			parentId = rand.ints(numOfParents, origin, bound).distinct().toArray();
+		}
+		
+		return parentId;
 	}
 }
