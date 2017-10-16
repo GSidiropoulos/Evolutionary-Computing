@@ -70,19 +70,33 @@ public class player29 implements ContestSubmission {
 		boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
 		if (!isMultimodal) {
-			EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(1,17, evaluations_limit_,
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(1, 10, evaluations_limit_,
 					MutationType.UNCORRELATED, evaluation_);
-			strategy.evolve(0, 10, 0);
+			strategy.evolve(30, 30, 2);
 		} else {
 			if (hasStructure) {
-				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1,120, evaluations_limit_,
+				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 38, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
-				strategy.evolve(50, 80, 3);
 
+				strategy.evolve(114, 114, 3);
+
+//				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 40, evaluations_limit_,
+//						MutationType.UNCORRELATED_N, evaluation_);
+//
+//				strategy.evolve(30, 30, 1);
+//				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(10, 20, evaluations_limit_,
+//						MutationType.UNCORRELATED_N, evaluation_);
+//
+//				strategy.evolve(40, 40, 4);
 			} else {
-				EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1,120, evaluations_limit_,
+				// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 120,
+				// evaluations_limit_,
+				// MutationType.UNCORRELATED_N, evaluation_);
+				// strategy.evolve(50, 120, 0);
+
+				EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
-				strategy.evolve(50, 120, 0);
+				strategy.evolve(50, 50, 3);
 			}
 		}
 
@@ -97,24 +111,27 @@ public class player29 implements ContestSubmission {
 			int bestPopSize = 0;
 			int bestMutSize = 0;
 
-			for (int popSize = 5; popSize < 20; popSize++) {
-				int mutSize = popSize *3;
-			//	for (int mutSize = 1; mutSize <= popSize; mutSize++) {
+			for (int popSize = 5; popSize < 50; popSize++) {
+				// greed search for the naive approach
+				for (int mutSize = 1; mutSize < popSize; mutSize++) {
+
+					// // greed search for the tournament selection
+					// int mutSize = popSize * 3;
 					ContestEvaluation evaluation = new BentCigarFunction();
 					Properties props = evaluation.getProperties();
 					int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
 
 					// init
-					EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(1,popSize, evaluations_limit_,
+					EvolutionaryStrategy strategy = new EvolutionaryStrategyUnimodal(1, popSize, evaluations_limit_,
 							MutationType.UNCORRELATED, evaluation);
 
 					// evolve population
-					//try {
-						strategy.evolve(mutSize, mutSize, 2);
-//					} catch (Exception e) {
-//						System.out.println(e.toString());
-//						System.out.println(evaluation.getFinalResult());
-//					}
+					try {
+						strategy.evolve(mutSize, mutSize, 1);
+					} catch (Exception e) {
+						System.out.println(e.toString());
+						System.out.println(evaluation.getFinalResult());
+					}
 					double bestCurrentScore = evaluation.getFinalResult();
 					System.out.println("Best result " + popSize + ": " + bestCurrentScore);
 
@@ -123,52 +140,73 @@ public class player29 implements ContestSubmission {
 						bestPopSize = popSize;
 						bestMutSize = mutSize;
 					}
-				//}
-
+				}
 			}
 
 			System.out.println("Pop: " + bestPopSize + " Mut: " + bestMutSize + " Score:" + bestScore);
 
 		} else if (args[0].equals("schaf")) {
+			double bestScore = -1;
+			int bestPopSize = 0;
+			int bestMutSize = 0;
 
-			ContestEvaluation evaluation = new SchaffersEvaluation();
-			Properties props = evaluation.getProperties();
-			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+			List<Integer> count5 = new ArrayList<Integer>();
+			List<Integer> count4 = new ArrayList<Integer>();
 
-			EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1,60, evaluations_limit_,
-					MutationType.UNCORRELATED_N, evaluation);
+			for (int popSize = 5; popSize < 100; popSize++) {
+				int mutSize = popSize * 3;
+				int count = 0;
+				for (int i = 0; i < 5; i++) {
+					ContestEvaluation evaluation = new SchaffersEvaluation();
+					Properties props = evaluation.getProperties();
+					int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
 
-			try {
+					EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, popSize, evaluations_limit_,
+							MutationType.UNCORRELATED_N, evaluation);
 
-				strategy.evolve(50, 50, 3);
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				System.out.println(evaluation.getFinalResult());
+					try {
+
+						strategy.evolve(mutSize, mutSize, 3);
+					} catch (Exception e) {
+						System.out.println(e.toString());
+						System.out.println(evaluation.getFinalResult());
+					}
+
+					double bestCurrentScore = evaluation.getFinalResult();
+
+					if (bestCurrentScore == 10.0) {
+						count++;
+					}
+					if (bestCurrentScore > bestScore) {
+						bestScore = bestCurrentScore;
+						bestPopSize = popSize;
+						bestMutSize = mutSize;
+					}
+				}
+				if (count == 5) {
+					count5.add(popSize);
+				} else if (count == 4) {
+					count4.add(popSize);
+				}
 			}
 
-			System.out.println("Best result: " + evaluation.getFinalResult());
-
+			System.out.println("Count 5" + count5.toString());
+			System.out.println("Count 4" + count4.toString());
 		} else {
 
 			ContestEvaluation evaluation = new KatsuuraEvaluation();
 			Properties props = evaluation.getProperties();
 			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
 
-//			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120, evaluations_limit_,
-//					MutationType.UNCORRELATED_N, evaluation);
-			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(5,50, evaluations_limit_,
+			// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120,
+			// evaluations_limit_,
+			// MutationType.UNCORRELATED_N, evaluation);
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50, evaluations_limit_,
 					MutationType.UNCORRELATED_N, evaluation);
 			strategy.evolve(50, 50, 3);
-//			EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60, evaluations_limit_,
-//					MutationType.UNCORRELATED_N, evaluation);
-			try {
-//				strategy.evolve(50, 50, 3);
-//				strategy.evolve(50, 120, 0);
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				System.out.println(evaluation.getFinalResult());
-			}
-
+			// EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60,
+			// evaluations_limit_,
+			// MutationType.UNCORRELATED_N, evaluation);
 			System.out.println("Best result: " + evaluation.getFinalResult());
 		}
 

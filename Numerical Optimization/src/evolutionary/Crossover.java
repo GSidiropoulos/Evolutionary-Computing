@@ -89,49 +89,4 @@ public class Crossover {
 		return childs;
 	}
 
-	public static Individual blend(List<Individual> indvs, double alpha) {
-
-		Individual x, y = null;
-		boolean a = rand.nextBoolean();
-		double crossRate = 0;
-		double[] genomesNew = new double[indvs.get(0).getGenomes().length];
-		double[] sigmaNew = new double[indvs.get(0).getSigma().length];
-
-		if (indvs.get(0).getFitness() < indvs.get(1).getFitness()) {
-			x = indvs.get(0);
-			y = indvs.get(1);
-		} else {
-			x = indvs.get(1);
-			y = indvs.get(0);
-		}
-
-		for (int i = 0; i < indvs.get(0).getGenomes().length; i++) {
-			double genome, sigma;
-			if (rand.nextDouble() <= y.getCrossRate()) {
-				double rangeMin = x.getGenomes()[i] - alpha * (y.getGenomes()[i] - x.getGenomes()[i]);
-				double rangeMax = y.getGenomes()[i] - alpha * (y.getGenomes()[i] - x.getGenomes()[i]);
-				double randomNumber = rand.nextDouble();
-
-				genome = rangeMin + (rangeMax - rangeMin) * randomNumber;
-				sigma = (x.getSigma()[i] + y.getSigma()[i]) / 2;
-				crossRate = (x.getCrossRate() + y.getCrossRate()) / 2;
-			} else {
-				if (a) {
-					genome = x.getGenomes()[i];
-					sigma = x.getSigma()[i];
-					crossRate = x.getCrossRate();
-				} else {
-					genome = y.getGenomes()[i];
-					sigma = y.getSigma()[i];
-					crossRate = y.getCrossRate();
-				}
-			}
-
-			genomesNew[i] = genome;
-			sigmaNew[i] = sigma;
-		}
-
-		return new Individual(genomesNew, sigmaNew, indvs.get(0).getEvaluation(), indvs.get(0).getMutationType());
-	}
-
 }

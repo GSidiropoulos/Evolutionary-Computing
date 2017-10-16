@@ -22,7 +22,7 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 	@Override
 	public void evolve(int numOfCrIndv, int numOfMutIndv, int type) {
-		evolve1(numOfCrIndv, numOfMutIndv);
+		evolve2(numOfCrIndv, numOfMutIndv);
 
 	}
 
@@ -47,17 +47,18 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 				for (int i = 0; i < numOfCrIndv; i++) {
 					// Select individuals for crossover
 					List<Individual> crossover = Selection.uniform(population.getPopulation(), 2);
-					newIndvs.add(Crossover.blend(crossover, 0.5));
+					//newIndvs.add(Crossover.blend(crossover, 0.5));
+					newIndvs.add(Crossover.average(crossover));
 				}
 
 				// mutation
 				for (int i = 0; i < numOfMutIndv; i++) {
-					mutatedIndvs.add(Mutation.cauchyMutation(newIndvs.get(i), 1, evals, evaluationsLimit));
+					mutatedIndvs.add(Mutation.deterministicMutation(newIndvs.get(i), evals, evaluationsLimit));
 				}
 
-				// mutatedIndvs.addAll(population.getPopulation());
+				 mutatedIndvs.addAll(population.getPopulation());
 
-				List<Individual> keepIndv = Selection.commaStrategy(mutatedIndvs, populationSize);
+				List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 
 				// remove all parents from population
 				population.removeFromPopulation(population.getPopulation());
@@ -81,25 +82,21 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 			// if (evals % (200 * populationSize) == 0) {
 			// population.reInitializePopulation();
 			// }
-			List<Individual> newIndvs = new ArrayList<>();
+		
 			List<Individual> mutatedIndvs = new ArrayList<>();
 
-			// population.shareFitness(0.001);
-			// crossover
-			for (int i = 0; i < numOfCrIndv; i++) {
-				// Select individuals for crossover
-				List<Individual> crossover = Selection.uniform(population.getPopulation(), 2);
-				newIndvs.add(Crossover.blend(crossover, 0.5));
-			}
+			// Select individuals for mutation
+			List<Individual> mutIndvs = Selection.uniform(population.getPopulation(), numOfMutIndv);
+			
 
 			// mutation
 			for (int i = 0; i < numOfMutIndv; i++) {
-				mutatedIndvs.add(Mutation.cauchyMutation(newIndvs.get(i), 1, evals, evaluationsLimit));
+				mutatedIndvs.add(Mutation.deterministicMutation(mutIndvs.get(i), evals, evaluationsLimit));
 			}
 
-			// mutatedIndvs.addAll(population.getPopulation());
+			mutatedIndvs.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.commaStrategy(mutatedIndvs, populationSize);
+			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());

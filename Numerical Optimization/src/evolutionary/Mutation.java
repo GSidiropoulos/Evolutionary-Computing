@@ -92,7 +92,7 @@ public class Mutation {
 
 	}
 
-	public static Individual cauchyMutation(Individual indv, double mutRatio, double numOfEvals, double evalsLimit) {
+	public static Individual deterministicMutation(Individual indv, double numOfEvals, double evalsLimit) {
 
 		double[] sigma = indv.getSigma();
 
@@ -101,12 +101,10 @@ public class Mutation {
 
 		for (int i = 0; i < indv.getGenomes().length; i++) {
 
-			if (rand.nextDouble() <= mutRatio) {
-				sigma[i] = 1.0 - (numOfEvals / evalsLimit);
-				sigma[i] = Math.pow(sigma[i], 3);
-				genomesNew[i] = genomes[i] + sigma[i] * Math.tan(Math.PI * (rand.nextDouble() - 0.5));
+			sigma[i] = 1.0 - (numOfEvals / evalsLimit);
+			sigma[i] = Math.pow(sigma[i], 4);
+			genomesNew[i] = genomes[i] + sigma[i] * rand.nextGaussian();
 
-			}
 		}
 
 		return new Individual(genomesNew, sigma, indv.getEvaluation(), type);

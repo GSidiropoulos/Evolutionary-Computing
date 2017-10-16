@@ -14,8 +14,6 @@ import evolutionary.Mutation.MutationType;
 
 public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
-	
-
 	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluationsLimit,
 			MutationType mutationType, ContestEvaluation evaluationType) {
 		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType);
@@ -35,6 +33,10 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 		case 3:
 			evolve3(numOfCrIndv, numOfMutIndv);
 			break;
+			
+		case 4:
+			evolve4(numOfCrIndv, numOfMutIndv);
+			break;
 		}
 
 	}
@@ -46,11 +48,15 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 		while (evals + numOfMutIndv < evaluationsLimit) {
 
 			if (evals % (200 * populationSize) == 0) {
+				System.out.println("here");
 				population.reInitializePopulation();
 			}
 
 			// Select individuals for mutation
-			List<Individual> mutated = Selection.uniform(population.getPopulation(), numOfMutIndv);
+			List<Individual> mutated = new ArrayList<Individual>();
+			for (int i = 0; i < numOfMutIndv; i++) {
+				mutated.addAll(Selection.uniform(population.getPopulation(), 1));
+			}
 
 			// Apply mutation operators
 			List<Individual> newPop = new ArrayList<Individual>();
@@ -110,7 +116,6 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	}
 
 	public void evolve3(int numOfCrIndv, int numOfMutIndv) {
-		System.out.println("sdsdfsdfsdfdsfdf");
 		Population population = populations.get(0);
 
 		int evals = populationSize;
@@ -146,6 +151,52 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 		}
 
+	}
+
+	public void evolve4(int numOfCrIndv, int numOfMutIndv) {
+
+		System.out.println("Begin");
+
+		int evals = numOfPopulations * populationSize;
+		int generations = 0;
+		while (evals + (numOfCrIndv + numOfMutIndv) * numOfPopulations < evaluationsLimit) {
+
+			for (Population population : populations) {
+
+				if ((generations % 25) == 0) {
+					migrate(5);
+
+				}
+
+				List<Individual> newIndvs = new ArrayList<>();
+				List<Individual> mutatedIndvs = new ArrayList<>();
+
+				// crossover
+				for (int i = 0; i < numOfCrIndv; i++) {
+					// Select individuals for crossover
+					List<Individual> crossover = Selection.uniform(population.getPopulation(), 5);
+
+					newIndvs.add(Crossover.average(crossover));
+				}
+
+				// mutation
+				for (int i = 0; i < numOfMutIndv; i++) {
+					mutatedIndvs.add(Mutation.uncorrelatedMutationN(newIndvs.get(i)));
+				}
+
+				mutatedIndvs.addAll(population.getPopulation());
+
+				List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+
+				// remove all parents from population
+				population.removeFromPopulation(population.getPopulation());
+
+				// replace parents with children
+				population.setPopulation(keepIndv);
+			}
+			generations++;
+			evals = evals + (numOfCrIndv + numOfMutIndv) * numOfPopulations;
+		}
 	}
 
 }

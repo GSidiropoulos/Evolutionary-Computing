@@ -37,6 +37,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 	}
 
 	public void evolve1(int numOfCrIndv, int numOfMutIndv) {
+
 		Population population = populations.get(0);
 		
 		int evals = populationSize;
@@ -71,7 +72,8 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 		Population population = populations.get(0);
 
 		int evals = populationSize;
-		while (evals + (numOfCrIndv + 2*numOfMutIndv) < evaluationsLimit) {
+
+		while (evals + 3*numOfMutIndv < evaluationsLimit) {
 
 			List<Individual> mutated = new ArrayList<Individual>();
 			List<Individual> crossovered = new ArrayList<Individual>();
@@ -81,6 +83,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 			// apply crossover
 			for (List<Individual> pair : cross) {
+				
 				crossovered.addAll(Crossover.uniform(pair));
 			}
 
@@ -89,9 +92,9 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 				mutated.add(Mutation.uncorrelatedMutation(crossovered.get(i)));
 			}
 
-			// elitism
 			//mutated.addAll(population.getPopulation());
 
+			// comma strategy
 			List<Individual> keepIndv = Selection.plusStrategy(mutated, populationSize);
 
 			// remove all parents from population
@@ -100,7 +103,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 			// replace parents with children
 			population.setPopulation(keepIndv);
 
-			evals = evals + (numOfCrIndv + 2*numOfMutIndv);
+			evals = evals + 3* numOfMutIndv;
 		}
 	}
 
