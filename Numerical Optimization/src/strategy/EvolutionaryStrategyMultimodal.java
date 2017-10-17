@@ -45,11 +45,11 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 		Population population = populations.get(0);
 
 		int evals = 0;
-		while (evals + numOfMutIndv < evaluationsLimit) {
+		while (evals + numOfMutIndv +populationSize< evaluationsLimit) {
 
 			if (evals % (200 * populationSize) == 0) {
-				System.out.println("here");
 				population.reInitializePopulation();
+				evals +=populationSize;
 			}
 
 			// Select individuals for mutation
@@ -66,7 +66,6 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 			}
 
 			newPop.addAll(population.getPopulation());
-			// System.out.println("Population Size: " + newPop.size());
 
 			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
 

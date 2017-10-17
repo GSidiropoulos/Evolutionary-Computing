@@ -9,6 +9,8 @@ import evolutionary.Individual;
 import evolutionary.Mutation;
 import evolutionary.Population;
 import utils.Calculate;
+import utils.IO;
+import utils.Statistics;
 import evolutionary.Mutation.MutationType;
 
 public abstract class EvolutionaryStrategy {
@@ -59,6 +61,18 @@ public abstract class EvolutionaryStrategy {
 			}
 		}
 
+	}
+	
+	public void createStatsFile(double[] fitness) {
+		String path = "/home/yorgos/Desktop/yolo.txt";
+
+		String stdDev = String.valueOf(Statistics.getStdDev(fitness));
+		String mean = String.valueOf(Statistics.getMean(fitness));
+		String max = String.valueOf(Statistics.getMax(fitness));
+
+		String string_ = max + " " + mean + " " + stdDev;
+
+		IO.appendToFile(string_, path);
 	}
 
 }

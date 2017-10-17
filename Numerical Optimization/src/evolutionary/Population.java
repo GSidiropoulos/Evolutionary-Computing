@@ -64,7 +64,7 @@ public class Population {
 	public void addIndividual(Individual indv) {
 		population.add(indv);
 	}
-	
+
 	public void addIndividual(List<Individual> indvs) {
 		population.addAll(indvs);
 	}
@@ -111,6 +111,17 @@ public class Population {
 			population.get(i).setFitness(fitnessPrime.get(i));
 		}
 
+	}
+
+	public double[] getFitness() {
+		double[] fitness = new double[popSize];
+		int i = 0;
+		for (Individual indv : population) {
+			fitness[i] = indv.getFitness();
+			i++;
+		}
+
+		return fitness;
 	}
 
 }

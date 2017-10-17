@@ -11,10 +11,10 @@ import evolutionary.Crossover;
 import evolutionary.Individual;
 import evolutionary.Mutation;
 import evolutionary.Selection;
+import utils.IO;
+import utils.Statistics;
 
 public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
-
-
 
 	public EvolutionaryStrategyUnimodal(int numOfPopulations, int populationSize, int evaluationsLimit,
 			MutationType mutationType, ContestEvaluation evaluationType) {
@@ -39,7 +39,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 	public void evolve1(int numOfCrIndv, int numOfMutIndv) {
 
 		Population population = populations.get(0);
-		
+
 		int evals = populationSize;
 		while (evals + numOfMutIndv < evaluationsLimit) {
 			List<Individual> newPop = new ArrayList<Individual>();
@@ -71,9 +71,12 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 	public void evolve2(int numOfCrIndv, int numOfMutIndv) {
 		Population population = populations.get(0);
 
+		
+		// write log file
+		createStatsFile(population.getFitness());
+		
 		int evals = populationSize;
-
-		while (evals + 3*numOfMutIndv < evaluationsLimit) {
+		while (evals + 3 * numOfMutIndv < evaluationsLimit) {
 
 			List<Individual> mutated = new ArrayList<Individual>();
 			List<Individual> crossovered = new ArrayList<Individual>();
@@ -83,7 +86,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 			// apply crossover
 			for (List<Individual> pair : cross) {
-				
+
 				crossovered.addAll(Crossover.uniform(pair));
 			}
 
@@ -92,7 +95,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 				mutated.add(Mutation.uncorrelatedMutation(crossovered.get(i)));
 			}
 
-			//mutated.addAll(population.getPopulation());
+			// mutated.addAll(population.getPopulation());
 
 			// comma strategy
 			List<Individual> keepIndv = Selection.plusStrategy(mutated, populationSize);
@@ -103,8 +106,12 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 			// replace parents with children
 			population.setPopulation(keepIndv);
 
-			evals = evals + 3* numOfMutIndv;
+			evals = evals + 3 * numOfMutIndv;
+
+			// write log file
+			createStatsFile(population.getFitness());
 		}
 	}
+
 
 }
