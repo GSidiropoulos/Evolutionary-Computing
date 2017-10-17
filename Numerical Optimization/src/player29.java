@@ -75,10 +75,10 @@ public class player29 implements ContestSubmission {
 			strategy.evolve(30, 30, 2);
 		} else {
 			if (hasStructure) {
-				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 38, evaluations_limit_,
+				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 52, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
 
-				strategy.evolve(114, 114, 3);
+				strategy.evolve(52*3, 52*3, 3);
 
 //				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 40, evaluations_limit_,
 //						MutationType.UNCORRELATED_N, evaluation_);
@@ -146,6 +146,7 @@ public class player29 implements ContestSubmission {
 			System.out.println("Pop: " + bestPopSize + " Mut: " + bestMutSize + " Score:" + bestScore);
 
 		} else if (args[0].equals("schaf")) {
+			System.out.println("HERE");
 			double bestScore = -1;
 			int bestPopSize = 0;
 			int bestMutSize = 0;
@@ -153,10 +154,10 @@ public class player29 implements ContestSubmission {
 			List<Integer> count5 = new ArrayList<Integer>();
 			List<Integer> count4 = new ArrayList<Integer>();
 
-			for (int popSize = 5; popSize < 100; popSize++) {
+			for (int popSize = 30; popSize < 60; popSize++) {
 				int mutSize = popSize * 3;
 				int count = 0;
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < 30; i++) {
 					ContestEvaluation evaluation = new SchaffersEvaluation();
 					Properties props = evaluation.getProperties();
 					int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
@@ -183,15 +184,15 @@ public class player29 implements ContestSubmission {
 						bestMutSize = mutSize;
 					}
 				}
-				if (count == 5) {
+				if (count == 30) {
 					count5.add(popSize);
-				} else if (count == 4) {
+				} else if (count > 20 && count <30) {
 					count4.add(popSize);
 				}
 			}
 
-			System.out.println("Count 5" + count5.toString());
-			System.out.println("Count 4" + count4.toString());
+			System.out.println("Count 30" + count5.toString());
+			System.out.println("Count 20" + count4.toString());
 		} else {
 
 			ContestEvaluation evaluation = new KatsuuraEvaluation();

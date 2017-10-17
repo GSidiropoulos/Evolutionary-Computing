@@ -127,7 +127,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 			// crossover
 			for (int i = 0; i < numOfCrIndv; i++) {
 				// Select individuals for crossover
-				List<Individual> crossover = Selection.uniform(population.getPopulation(), 5);
+				List<Individual> crossover = Selection.uniform(population.getPopulation(), 8);
 
 				newIndvs.add(Crossover.average(crossover));
 			}
@@ -137,7 +137,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 				mutatedIndvs.add(Mutation.uncorrelatedMutationN(newIndvs.get(i)));
 			}
 
-			mutatedIndvs.addAll(population.getPopulation());
+			//mutatedIndvs.addAll(population.getPopulation());
 
 			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 

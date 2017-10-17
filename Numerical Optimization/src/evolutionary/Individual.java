@@ -16,7 +16,6 @@ public class Individual {
 	private MutationType mutationType;
 	private ContestEvaluation evaluation;
 	private ThreadLocalRandom rand = ThreadLocalRandom.current();
-	private double crossRate = 0.1 * rand.nextGaussian() + 0.5;
 
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
@@ -119,14 +118,6 @@ public class Individual {
 		}
 
 		return genomes;
-	}
-
-	public double getCrossRate() {
-		return crossRate;
-	}
-
-	public void setCrossRate(double crossRate) {
-		this.crossRate = crossRate;
 	}
 
 }
