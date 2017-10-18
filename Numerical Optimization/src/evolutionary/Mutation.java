@@ -2,6 +2,8 @@ package evolutionary;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import strategy.EvolutionaryStrategy;
+
 public class Mutation {
 
 	// static class
@@ -10,7 +12,7 @@ public class Mutation {
 							// coordinate wise learning rate in 1
 	static final double EPSILON_MACHINE = Math.ulp(1.0);
 	static MutationType type;
-	static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	//static ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 	public static enum MutationType {
 		UNCORRELATED(1, 1), UNCORRELATED_N(10, 2);
@@ -51,7 +53,7 @@ public class Mutation {
 	public static Individual uncorrelatedMutation(Individual indv) {
 
 		double sigma = indv.getSigma()[0];
-		double sigmaNew = sigma * Math.exp(tau[0] * rand.nextGaussian());
+		double sigmaNew = sigma * Math.exp(tau[0] * EvolutionaryStrategy.rand.nextGaussian());
 
 		// boundary rule
 		if (sigmaNew < EPSILON_MACHINE) {
@@ -62,7 +64,7 @@ public class Mutation {
 		double[] genomesNew = new double[10];
 
 		for (int i = 0; i < genomes.length; i++) {
-			genomesNew[i] = genomes[i] + sigmaNew * rand.nextGaussian();
+			genomesNew[i] = genomes[i] + sigmaNew * EvolutionaryStrategy.rand.nextGaussian();
 		}
 
 		double[] sigmaNewArray = new double[1];
@@ -76,16 +78,16 @@ public class Mutation {
 		double[] sigma = indv.getSigma();
 		double[] sigmaNew = new double[sigma.length];
 
-		double n = rand.nextGaussian();
+		double n = EvolutionaryStrategy.rand.nextGaussian();
 		for (int i = 0; i < sigmaNew.length; i++) {
-			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * n + tau[1] * rand.nextGaussian());
+			sigmaNew[i] = sigma[i] * Math.exp(tau[0] * n + tau[1] * EvolutionaryStrategy.rand.nextGaussian());
 		}
 
 		double[] genomes = indv.getGenomes();
 		double[] genomesNew = new double[10];
 
 		for (int i = 0; i < genomes.length; i++) {
-			genomesNew[i] = genomes[i] + sigmaNew[i] * rand.nextGaussian();
+			genomesNew[i] = genomes[i] + sigmaNew[i] * EvolutionaryStrategy.rand.nextGaussian();
 		}
 
 		return new Individual(genomesNew, sigmaNew, indv.getEvaluation(), type);
@@ -103,7 +105,7 @@ public class Mutation {
 
 			sigma[i] = 1.0 - (numOfEvals / evalsLimit);
 			sigma[i] = Math.pow(sigma[i], 4);
-			genomesNew[i] = genomes[i] + sigma[i] * rand.nextGaussian();
+			genomesNew[i] = genomes[i] + sigma[i] * EvolutionaryStrategy.rand.nextGaussian();
 
 		}
 

@@ -3,9 +3,10 @@ package utils;
 import java.util.concurrent.ThreadLocalRandom;
 
 import evolutionary.Individual;
+import strategy.EvolutionaryStrategy;
 
 public class Calculate {
-	static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	//static ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 	public static double euclideanDistance(Individual indv1, Individual indv2) {
 		double sum = 0.0;
@@ -24,7 +25,7 @@ public class Calculate {
 		int[] parentId = new int[numOfParents];
 
 		while (parentId.length < numOfParents) {
-			parentId = rand.ints(numOfParents, origin, bound).distinct().toArray();
+			parentId = EvolutionaryStrategy.rand.ints(numOfParents, origin, bound).distinct().toArray();
 		}
 
 		return parentId;

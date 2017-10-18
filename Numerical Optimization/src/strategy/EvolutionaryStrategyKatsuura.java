@@ -2,6 +2,7 @@ package strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -15,8 +16,8 @@ import evolutionary.Selection;
 public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 	public EvolutionaryStrategyKatsuura(int numOfPopulations, int populationSize, int evaluationsLimit,
-			MutationType mutationType, ContestEvaluation evaluationType) {
-		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType);
+			MutationType mutationType, ContestEvaluation evaluationType, Random rand) {
+		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType, rand);
 		// TODO Auto-generated constructor stub
 	}
 

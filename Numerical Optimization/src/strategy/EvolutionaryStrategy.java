@@ -2,6 +2,7 @@ package strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -21,15 +22,17 @@ public abstract class EvolutionaryStrategy {
 	protected MutationType mutationType;
 	protected ContestEvaluation evaluationType;
 	protected List<Population> populations = new ArrayList<>();
+	public static  Random rand;
 
 	public EvolutionaryStrategy(int numOfPopulations, int populationSize, int evaluationsLimit,
-			MutationType mutationType, ContestEvaluation evaluationType) {
+			MutationType mutationType, ContestEvaluation evaluationType, Random rand) {
 		super();
 		this.populationSize = populationSize;
 		this.numOfPopulations = numOfPopulations;
 		this.evaluationsLimit = evaluationsLimit;
 		this.mutationType = mutationType;
 		this.evaluationType = evaluationType;
+		this.rand = rand;
 
 		// initialize population
 		for (int i = 0; i < numOfPopulations; i++) {

@@ -2,6 +2,7 @@ package strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.vu.contest.ContestEvaluation;
 
@@ -14,9 +15,17 @@ import evolutionary.Mutation.MutationType;
 
 public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
-	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluationsLimit,
-			MutationType mutationType, ContestEvaluation evaluationType) {
-		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType);
+//	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluationsLimit,
+//			MutationType mutationType, ContestEvaluation evaluationType, Random rand) {
+//		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType, rand);
+//		// TODO Auto-generated constructor stub
+//	}
+
+
+	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluations_limit_,
+			MutationType uncorrelatedN, ContestEvaluation evaluation_, Random rnd_) {
+		super(numOfPopulations, populationSize, evaluations_limit_, uncorrelatedN, evaluation_,  rnd_);
+
 		// TODO Auto-generated constructor stub
 	}
 

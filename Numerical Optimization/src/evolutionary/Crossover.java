@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import strategy.EvolutionaryStrategy;
+
 public class Crossover {
 
-	static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	//static ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 	public static Individual average(List<Individual> indvs) {
 
@@ -50,7 +52,7 @@ public class Crossover {
 		if (numOfSigmas == 1) {
 
 			for (int i = 0; i < c1Genomes.length; i++) {
-				if (rand.nextInt(0, 2) == 0) {
+				if (EvolutionaryStrategy.rand.nextInt(2) == 0) {
 					//
 					c1Genomes[i] = indvs.get(0).getGenomes()[i];
 					c2Genomes[i] = indvs.get(1).getGenomes()[i];
@@ -64,7 +66,7 @@ public class Crossover {
 		} else {
 			for (int i = 0; i < c1Genomes.length; i++) {
 
-				if (rand.nextInt(0, 2) == 0) {
+				if (EvolutionaryStrategy.rand.nextInt(2) == 0) {
 					//
 					c1Genomes[i] = indvs.get(0).getGenomes()[i];
 					c2Genomes[i] = indvs.get(1).getGenomes()[i];

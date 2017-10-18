@@ -6,11 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import strategy.EvolutionaryStrategy;
 import utils.IndividualComparator;
 
 public class Selection {
 
-	static ThreadLocalRandom rand = ThreadLocalRandom.current();
+	//static ThreadLocalRandom rand = ThreadLocalRandom.current();
 	static Population population;
 
 	// Parent selection
@@ -77,7 +78,7 @@ public class Selection {
 
 		List<Integer> parentId = new ArrayList<>();
 		while (parentId.size() < numOfParents) {
-			int id = rand.nextInt(0, indvs.size());
+			int id = EvolutionaryStrategy.rand.nextInt(indvs.size());
 
 			if (!parentId.contains(id)) {
 				parentId.add(id);
@@ -106,7 +107,7 @@ public class Selection {
 	private static List<Integer> chooseRandom(int numOfParents, int origin, int bound) {
 		List<Integer> parentId = new ArrayList<>();
 		while (parentId.size() < numOfParents) {
-			int id = rand.nextInt(origin, bound);
+			int id = EvolutionaryStrategy.rand.nextInt(bound);
 
 			if (!parentId.contains(id)) {
 				parentId.add(id);

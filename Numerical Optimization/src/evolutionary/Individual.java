@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.vu.contest.ContestEvaluation;
 
 import evolutionary.Mutation.MutationType;
+import strategy.EvolutionaryStrategy;
 
 public class Individual {
 
@@ -15,7 +16,7 @@ public class Individual {
 
 	private MutationType mutationType;
 	private ContestEvaluation evaluation;
-	private ThreadLocalRandom rand = ThreadLocalRandom.current();
+	//private ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 	static final int ORIGIN = -5;
 	static final int BOUND = 5;
@@ -54,7 +55,7 @@ public class Individual {
 
 	private void setGenomes() {
 		for (int i = 0; i < genomes.length; i++) {
-			genomes[i] = ORIGIN + rand.nextDouble() * (BOUND - ORIGIN);// rand.nextDouble(ORIGIN, BOUND);
+			genomes[i] = ORIGIN + EvolutionaryStrategy.rand.nextDouble() * (BOUND - ORIGIN);// rand.nextDouble(ORIGIN, BOUND);
 		}
 	}
 
@@ -96,7 +97,7 @@ public class Individual {
 
 	private void setNrmlDstrN() {
 		for (int i = 0; i < nrmlDstrN.length; i++) {
-			nrmlDstrN[i] = rand.nextGaussian();
+			nrmlDstrN[i] = EvolutionaryStrategy.rand.nextGaussian();
 		}
 	}
 
