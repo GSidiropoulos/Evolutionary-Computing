@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class player29 implements ContestSubmission {
-	Random rnd_;
+	static Random rnd_;
 	ContestEvaluation evaluation_;
 	private int evaluations_limit_;
 
@@ -84,21 +84,27 @@ public class player29 implements ContestSubmission {
 						MutationType.UNCORRELATED_N, evaluation_);
 
 				strategy.evolve(156, 156, 3);
-				
-//				EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 37, evaluations_limit_,
-//						MutationType.UNCORRELATED_N, evaluation_);
-//
-//				strategy.evolve(21, 21, 1);
-				
-			} else {
-				// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 120,
+
+				// EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(1, 37,
 				// evaluations_limit_,
 				// MutationType.UNCORRELATED_N, evaluation_);
-				// strategy.evolve(50, 120, 0);
+				//
+				// strategy.evolve(21, 21, 1);
 
+			} else {
 				EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50, evaluations_limit_,
 						MutationType.UNCORRELATED_N, evaluation_);
-				strategy.evolve(50, 50, 3);
+				strategy.evolve(41, 41, 2);
+
+				// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(5, 37,
+				// evaluations_limit_,
+				// MutationType.UNCORRELATED_N, evaluation_);
+				// strategy.evolve(111, 111, 1);
+
+				// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50,
+				// evaluations_limit_,
+				// MutationType.UNCORRELATED_N, evaluation_);
+				// strategy.evolve(50, 50, 2);
 			}
 		}
 
@@ -219,21 +225,63 @@ public class player29 implements ContestSubmission {
 			/////////////////////////////////////////////////
 
 		} else {
-
 			ContestEvaluation evaluation = new KatsuuraEvaluation();
 			Properties props = evaluation.getProperties();
 			int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
 
-			// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(120,
-			// evaluations_limit_,
-			// MutationType.UNCORRELATED_N, evaluation);
-			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50, evaluations_limit_,
+			EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(5, 37, evaluations_limit_,
 					MutationType.UNCORRELATED_N, evaluation);
-			strategy.evolve(50, 50, 3);
-			// EvolutionaryStrategy strategy = new EvolutionaryStrategyMultimodal(60,
+
+			strategy.evolve(111, 111, 1);
+			System.out.println(evaluation.getFinalResult());
+
+			// ContestEvaluation evaluation = new KatsuuraEvaluation();
+			// Properties props = evaluation.getProperties();
+			// int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+			//
+			// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(1, 50,
 			// evaluations_limit_,
 			// MutationType.UNCORRELATED_N, evaluation);
-			System.out.println("Best result: " + evaluation.getFinalResult());
+			// strategy.evolve(41, 41, 2);
+			// System.out.println(evaluation.getFinalResult());
+			// strategy.evolve(mutSize, mutSize, 3);
+
+			// double bestScore = -1;
+			// int bestPopSize = 0;
+			// int bestMutSize = 0;
+			//
+			// for (int popSize = 30; popSize <40; popSize++) {
+			// // greed search for the naive approach
+			// int mutSize = popSize * 3;
+			// double totalScore = 0;
+			// for (int i=0; i < 5; i++) {
+			//
+			// ContestEvaluation evaluation = new KatsuuraEvaluation();
+			// Properties props = evaluation.getProperties();
+			// int evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+			//
+			// EvolutionaryStrategy strategy = new EvolutionaryStrategyKatsuura(5, popSize,
+			// evaluations_limit_,
+			// MutationType.UNCORRELATED_N, evaluation);
+			// strategy.evolve(mutSize, mutSize, 1);
+			//
+			// System.out.println("Best result: " + evaluation.getFinalResult());
+			// double bestCurrentScore = evaluation.getFinalResult();
+			// System.out.println("Best result " + popSize + ": " + bestCurrentScore);
+			// totalScore += bestCurrentScore;
+			//
+			// }
+			// totalScore = totalScore/5;
+			// if (totalScore > bestScore) {
+			// bestScore = totalScore;
+			// bestPopSize = popSize;
+			// bestMutSize = mutSize;
+			// }
+			// }
+			//
+			// System.out.println("Pop: " + bestPopSize + " Mut: " + bestMutSize + " Score:"
+			// + bestScore);
+
 		}
 
 	}

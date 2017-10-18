@@ -33,7 +33,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 		case 3:
 			evolve3(numOfCrIndv, numOfMutIndv);
 			break;
-			
+
 		case 4:
 			evolve4(numOfCrIndv, numOfMutIndv);
 			break;
@@ -44,24 +44,28 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	public void evolve1(int numOfCrIndv, int numOfMutIndv) {
 		Population population = populations.get(0);
 
-		int evals = 0;
-		while (evals + numOfMutIndv +populationSize< evaluationsLimit) {
+		// write log file
+		createStatsFile(population.getFitness());
 
-			if (evals % (200 * populationSize) == 0) {
+		int generations = 0;
+		int evals = populationSize;
+		while ((evals + (numOfMutIndv + numOfCrIndv) * 2) < evaluationsLimit) {
+
+			if (generations % 300 == 0) {
 				population.reInitializePopulation();
-				evals +=populationSize;
+				evals += populationSize;
 			}
 
-			// Select individuals for mutation
-			List<Individual> mutated = new ArrayList<Individual>();
-			for (int i = 0; i < numOfMutIndv; i++) {
-				mutated.addAll(Selection.uniform(population.getPopulation(), 1));
+			// Select individuals for crossover
+			List<Individual> cross = new ArrayList<Individual>();
+			for (int i = 0; i < numOfCrIndv; i++) {
+				cross.addAll(Crossover.uniform(Selection.uniform(population.getPopulation(), 2)));
 			}
 
 			// Apply mutation operators
 			List<Individual> newPop = new ArrayList<Individual>();
 
-			for (Individual indv : mutated) {
+			for (Individual indv : cross) {
 				newPop.add(Mutation.uncorrelatedMutationN(indv));
 			}
 
@@ -75,7 +79,11 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 			// replace parents with children
 			population.setPopulation(keepIndv);
 
-			evals = evals + numOfMutIndv;
+			// write log file
+			createStatsFile(population.getFitness());
+
+			generations++;
+			evals = evals + (numOfMutIndv + numOfCrIndv) * 2;
 
 		}
 
@@ -136,7 +144,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 				mutatedIndvs.add(Mutation.uncorrelatedMutationN(newIndvs.get(i)));
 			}
 
-			//mutatedIndvs.addAll(population.getPopulation());
+			// mutatedIndvs.addAll(population.getPopulation());
 
 			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 

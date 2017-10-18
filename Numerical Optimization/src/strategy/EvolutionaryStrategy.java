@@ -64,7 +64,7 @@ public abstract class EvolutionaryStrategy {
 	}
 	
 	public void createStatsFile(double[] fitness) {
-		String path = "/home/yorgos/Desktop/yolo.txt";
+		String path = "/home/yorgos/Desktop/log.txt";
 
 		String stdDev = String.valueOf(Statistics.getStdDev(fitness));
 		String mean = String.valueOf(Statistics.getMean(fitness));

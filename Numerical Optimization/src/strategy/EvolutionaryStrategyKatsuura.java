@@ -22,7 +22,15 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 	@Override
 	public void evolve(int numOfCrIndv, int numOfMutIndv, int type) {
-		evolve2(numOfCrIndv, numOfMutIndv);
+	
+		switch (type) {
+		case 1:
+			evolve1(numOfCrIndv, numOfMutIndv);
+			break;
+		case 2:
+			evolve2(numOfCrIndv, numOfMutIndv);
+			break;
+		}
 
 	}
 
@@ -35,8 +43,8 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 			for (Population population : populations) {
 
-				if ((generations % 25) == 0) {
-					migrate(10);
+				if ((generations % 50) == 0) {
+					migrate(5);
 
 				}
 
@@ -47,7 +55,6 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 				for (int i = 0; i < numOfCrIndv; i++) {
 					// Select individuals for crossover
 					List<Individual> crossover = Selection.uniform(population.getPopulation(), 2);
-					//newIndvs.add(Crossover.blend(crossover, 0.5));
 					newIndvs.add(Crossover.average(crossover));
 				}
 
@@ -56,7 +63,7 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 					mutatedIndvs.add(Mutation.deterministicMutation(newIndvs.get(i), evals, evaluationsLimit));
 				}
 
-				 mutatedIndvs.addAll(population.getPopulation());
+				mutatedIndvs.addAll(population.getPopulation());
 
 				List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
 
@@ -79,15 +86,11 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 		int evals = populationSize;
 		while (evals + (numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
-			// if (evals % (200 * populationSize) == 0) {
-			// population.reInitializePopulation();
-			// }
-		
+
 			List<Individual> mutatedIndvs = new ArrayList<>();
 
 			// Select individuals for mutation
 			List<Individual> mutIndvs = Selection.uniform(population.getPopulation(), numOfMutIndv);
-			
 
 			// mutation
 			for (int i = 0; i < numOfMutIndv; i++) {
