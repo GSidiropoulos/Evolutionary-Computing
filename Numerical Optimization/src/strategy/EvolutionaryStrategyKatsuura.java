@@ -23,7 +23,7 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 	@Override
 	public void evolve(int numOfCrIndv, int numOfMutIndv, int type) {
-	
+
 		switch (type) {
 		case 1:
 			evolve1(numOfCrIndv, numOfMutIndv);
@@ -66,7 +66,7 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 				mutatedIndvs.addAll(population.getPopulation());
 
-				List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+				List<Individual> keepIndv = Selection.survivorSelection(mutatedIndvs, populationSize);
 
 				// remove all parents from population
 				population.removeFromPopulation(population.getPopulation());
@@ -83,7 +83,11 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 	}
 
 	public void evolve2(int numOfCrIndv, int numOfMutIndv) {
+
 		Population population = populations.get(0);
+
+		// write log file
+		// createStatsFile(population.getFitness());
 
 		int evals = populationSize;
 		while (evals + (numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
@@ -100,7 +104,7 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 			mutatedIndvs.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(mutatedIndvs, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -110,6 +114,8 @@ public class EvolutionaryStrategyKatsuura extends EvolutionaryStrategy {
 
 			evals = evals + (numOfCrIndv + numOfMutIndv);
 
+			// write log file
+			// createStatsFile(population.getFitness());
 		}
 
 	}

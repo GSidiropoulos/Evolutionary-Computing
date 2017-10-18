@@ -97,7 +97,7 @@ public class Selection {
 	// Survivor selection
 
 	// (μ,λ), (μ+λ)
-	public static List<Individual> plusStrategy(List<Individual> indvs, int mu) {
+	public static List<Individual> survivorSelection(List<Individual> indvs, int mu) {
 		Collections.sort(indvs, new IndividualComparator());
 		return indvs.subList(0, mu);
 

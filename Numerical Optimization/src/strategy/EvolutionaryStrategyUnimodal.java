@@ -41,6 +41,9 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 		Population population = populations.get(0);
 
+		// write log file
+		// createStatsFile(population.getFitness());
+
 		int evals = populationSize;
 		while (evals + numOfMutIndv < evaluationsLimit) {
 			List<Individual> newPop = new ArrayList<Individual>();
@@ -55,7 +58,7 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 			newPop.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(newPop, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -65,6 +68,9 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 
 			evals = evals + numOfMutIndv;
 
+			// write log file
+			// createStatsFile(population.getFitness());
+
 		}
 
 	}
@@ -72,10 +78,9 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 	public void evolve2(int numOfCrIndv, int numOfMutIndv) {
 		Population population = populations.get(0);
 
-		
 		// write log file
-		createStatsFile(population.getFitness());
-		
+		// createStatsFile(population.getFitness());
+
 		int evals = populationSize;
 		while (evals + 3 * numOfMutIndv < evaluationsLimit) {
 
@@ -96,10 +101,8 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 				mutated.add(Mutation.uncorrelatedMutation(crossovered.get(i)));
 			}
 
-			// mutated.addAll(population.getPopulation());
-
 			// comma strategy
-			List<Individual> keepIndv = Selection.plusStrategy(mutated, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(mutated, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -110,9 +113,8 @@ public class EvolutionaryStrategyUnimodal extends EvolutionaryStrategy {
 			evals = evals + 3 * numOfMutIndv;
 
 			// write log file
-			createStatsFile(population.getFitness());
+			// createStatsFile(population.getFitness());
 		}
 	}
-
 
 }

@@ -15,16 +15,17 @@ import evolutionary.Mutation.MutationType;
 
 public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
-//	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluationsLimit,
-//			MutationType mutationType, ContestEvaluation evaluationType, Random rand) {
-//		super(numOfPopulations, populationSize, evaluationsLimit, mutationType, evaluationType, rand);
-//		// TODO Auto-generated constructor stub
-//	}
-
+	// public EvolutionaryStrategyMultimodal(int numOfPopulations, int
+	// populationSize, int evaluationsLimit,
+	// MutationType mutationType, ContestEvaluation evaluationType, Random rand) {
+	// super(numOfPopulations, populationSize, evaluationsLimit, mutationType,
+	// evaluationType, rand);
+	// // TODO Auto-generated constructor stub
+	// }
 
 	public EvolutionaryStrategyMultimodal(int numOfPopulations, int populationSize, int evaluations_limit_,
 			MutationType uncorrelatedN, ContestEvaluation evaluation_, Random rnd_) {
-		super(numOfPopulations, populationSize, evaluations_limit_, uncorrelatedN, evaluation_,  rnd_);
+		super(numOfPopulations, populationSize, evaluations_limit_, uncorrelatedN, evaluation_, rnd_);
 
 		// TODO Auto-generated constructor stub
 	}
@@ -80,7 +81,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 			newPop.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(newPop, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(newPop, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -117,7 +118,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 			mutatedIndvs.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(mutatedIndvs, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -132,7 +133,11 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 	}
 
 	public void evolve3(int numOfCrIndv, int numOfMutIndv) {
+
 		Population population = populations.get(0);
+
+		// write log file
+		// createStatsFile(population.getFitness());
 
 		int evals = populationSize;
 		while (evals + (numOfCrIndv + numOfMutIndv) < evaluationsLimit) {
@@ -155,7 +160,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 			// mutatedIndvs.addAll(population.getPopulation());
 
-			List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+			List<Individual> keepIndv = Selection.survivorSelection(mutatedIndvs, populationSize);
 
 			// remove all parents from population
 			population.removeFromPopulation(population.getPopulation());
@@ -165,6 +170,8 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 			evals = evals + (numOfCrIndv + numOfMutIndv);
 
+			// write log file
+			// createStatsFile(population.getFitness());
 		}
 
 	}
@@ -202,7 +209,7 @@ public class EvolutionaryStrategyMultimodal extends EvolutionaryStrategy {
 
 				mutatedIndvs.addAll(population.getPopulation());
 
-				List<Individual> keepIndv = Selection.plusStrategy(mutatedIndvs, populationSize);
+				List<Individual> keepIndv = Selection.survivorSelection(mutatedIndvs, populationSize);
 
 				// remove all parents from population
 				population.removeFromPopulation(population.getPopulation());
